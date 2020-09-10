@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Mutable Bunnies</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,target-densitydpi=device-dpi, user-scalable=no">
+
+    <script src="script/eventbus.js"></script>
+    <script src="script/application.js"></script>
+    <script type="module">
+        import './component/login.js';
+        import './component/bunny-bar.js';</script>
+
+    <style>
+        /*@font-face {
+            font-family: Roboto Bold;
+            src: url("fonts/static/RobotoSlab-Bold.ttf") format("ttf");
+        }*/
+
+        body {
+            background-color: #212121;
+            margin: 0;
+        }
+
+        #content {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div id="content">
+    <bunny-bar location="top">Mutable bunnies, beware.</bunny-bar>
+    <game-login></game-login>
+    <bunny-bar location="bottom">Unstable Wesen 1.4.0</bunny-bar>
+</div>
+
+</body>
+<script>
+    Promise.all(
+        ['bunny-bar', 'game-login']
+            .map(name => customElements.whenDefined(name)),
+    ).then(() => {
+        document.getElementById('content').style.display = 'block';
+        document.body.style.backgroundImage = `url('/img/background.png')`;
+    });
+</script>
+</html>

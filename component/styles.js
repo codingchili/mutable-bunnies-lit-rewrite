@@ -9,6 +9,7 @@ export class BunnyStyles {
                 --input-container-focus-color: #ddd;
                 --accent: rgb(0, 176, 255);     
                 --game-theme-opaque: #687f7d80;   
+                --accent-ripple-tab: #00b0ff;
             }    
         `;
     }
@@ -47,6 +48,26 @@ export class BunnyStyles {
             padding: 0px;
             line-height: 1em;
         }
+        `;
+    }
+
+    static get links() {
+        return `
+        a, a:active, a:visited, a:focus {
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #ffffff;
+            text-decoration: underline;
+        }
+        `;
+    }
+
+    static get scrollbars() {
+        return `
+            /* check out index.html */
         `;
     }
 }

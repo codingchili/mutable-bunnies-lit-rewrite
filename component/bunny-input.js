@@ -84,7 +84,7 @@ class BunnyInput extends HTMLElement {
                 color: var(--input-container-color);
                 font-size: 1em;
                 padding-bottom: 2px;;
-                font-family: "Roboto Light";
+                font-family: "Roboto Bold";
                 font-weight: 800;
             }
             
@@ -117,8 +117,7 @@ class BunnyInput extends HTMLElement {
             .label {
                 color: var(--input-container-color);
                 font-size: 12px;
-                font-family: 'Roboto Light';
-                font-weight: 800;
+                font-family: 'Roboto', 'Noto', sans-serif;
                 margin-left: 2px;
                 margin-bottom: 4px;
             }

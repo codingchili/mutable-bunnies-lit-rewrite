@@ -18,3 +18,5 @@ class RealmRegistry {
         });
     }
 }
+
+window.RealmRegistry = RealmRegistry;

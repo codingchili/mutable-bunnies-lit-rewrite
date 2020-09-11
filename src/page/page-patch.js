@@ -25,7 +25,7 @@ class PatchPage extends HTMLElement {
         this.changes = items;
     }
 
-    get template() {
+    static template(page) {
         return html`
             <style>
                 ${BunnyStyles.variables}
@@ -85,19 +85,19 @@ class PatchPage extends HTMLElement {
 
         <div class="container">
             <div class="version">
-                ${this.patch.version}
+                ${page.patch.version}
             </div>
 
             <div class="title">
-                <h4>${this.patch.name}</h4>
+                <h4>${page.patch.name}</h4>
             </div>
 
             <div class="changes">
-                ${this.changes}
+                ${page.changes}
             </div>
 
             <div class="date">
-                ${this.patch.date}
+                ${page.patch.date}
             </div>
         </div>
         `;
@@ -113,7 +113,7 @@ class PatchPage extends HTMLElement {
                 application.loadedVersion(json);
                 this.patch = json;
                 this.renderList();
-                render(this.template, this.shadowRoot);
+                render(PatchPage.template, this.shadowRoot);
             });
     }
 }

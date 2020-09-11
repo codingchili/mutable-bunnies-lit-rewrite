@@ -8,9 +8,9 @@ class Application {
 
     constructor() {
         this.development = {
-            skipStart: false,
+            skipStart: true,
             autologin: false,
-            selectFirstRealm: true,
+            selectFirstRealm: false,
             selectFirstCharacter: true,
             clearCache: true,
             rightClick: true,
@@ -43,7 +43,7 @@ class Application {
     authenticated(authentication) {
         application.token = authentication.token;
         application.account = authentication.account;
-        application.view('realm-list');
+        application.view('game-realms');
         application.publish('onAuthentication', application);
     }
 
@@ -188,7 +188,7 @@ class Application {
     }
 
     showRealms() {
-        application.view('realm-list');
+        application.view('game-realms');
     }
 
     onRealmSelect(callback) {

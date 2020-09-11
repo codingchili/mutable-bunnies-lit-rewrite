@@ -1,10 +1,11 @@
 import {html, render} from '/node_modules/lit-html/lit-html.js';
+import {BunnyStyles} from "../component/styles";
 import '/component/bunny-pages.js'
 import '/component/bunny-bar.js'
-import '/component/styles.js'
+import '/component/bunny-icon.js'
 import './start-page.js'
 import './game-login.js'
-import {BunnyStyles} from "../component/styles";
+import './game-realms.js'
 
 class AppView extends HTMLElement {
 
@@ -39,34 +40,16 @@ class AppView extends HTMLElement {
                     z-index: 100;
                 }
                 
-                .icon {
-                    fill: var(--icon-color);
-                    width: 24px;
-                    height: 24px;
-                    margin-top: 0px;
-                }
-                
-                .icon:hover {
-                    fill: var(--accent-color);
-                    cursor: pointer;
-                }
+                ${BunnyStyles.icons}
             </style>
 
             <bunny-bar id="toolbar" location="top">
                 <div slot="left" class="icon" ?hidden="${this.authenticated}">
-                    <!-- start.svg -->
-                    <svg class="icon" @mousedown="${this._home.bind(this)}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path d="M0 0h24v24H0z" fill="none"/>
-                        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
-                    </svg>
+                    <bunny-icon @mousedown="${this._home.bind(this)}" icon="home">
                 </div>
                 <div id="banner" slot="text"></div>
                 <div ?hidden="${!this.authenticated}" slot="right" class="icon" @mousedown="${this._logout.bind(this)}">
-                    <!-- close.svg -->
-                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path d="M0 0h24v24H0z" fill="none"/>
-                        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
-                    </svg>
+                    <bunny-icon icon="logout">
                 </div>
             </bunny-bar>
 
@@ -76,7 +59,7 @@ class AppView extends HTMLElement {
                     <div slot="pages">
                         <start-page class="layout horizontal center-justified"></start-page>
                         <game-login class="layout horizontal center-justified"></game-login>
-                        <realm-list class="layout horizontal center-justified"></realm-list>
+                        <game-realms class="layout horizontal center-justified"></game-realms>
                         <character-list class="layout horizontal center-justified"></character-list>
                         <patch-download class="layout horizontal center-justified"></patch-download>
                         <game-view></game-view>
@@ -121,7 +104,7 @@ class AppView extends HTMLElement {
         this.attachShadow({mode: 'open'});
         this.render();
 
-        customElements.whenDefined('bunny-pages').then(() => this.setView(this.view));
+        customElements.whenDefined('bunny-pages').then(() => application.publish('view', start));
     }
 
     banner() {

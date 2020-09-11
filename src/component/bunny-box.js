@@ -9,7 +9,7 @@ class BunnyBox extends HTMLElement {
 
     connectedCallback() {
         this.attachShadow({mode: 'open'});
-        render(this.template, this.shadowRoot);
+        render(BunnyBox.template, this.shadowRoot);
 
         let container = this.shadowRoot.querySelector('.container');
 
@@ -21,7 +21,7 @@ class BunnyBox extends HTMLElement {
         }
     }
 
-    get template() {
+    static get template() {
         return html`
             <style>
                 ${BunnyStyles.variables}

@@ -67,8 +67,11 @@ class RealmServer {
 
     static ping(callback, realm) {
         new Network()
+            .setProtocol(realm.secure ? 'https://' : 'http://')
             .setPort(realm.port)
             .setHost(realm.host)
             .ping(callback);
     }
 }
+
+window.RealmServer = RealmServer;

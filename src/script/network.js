@@ -8,6 +8,7 @@ class Network {
         this.port = 1443; // default api port.
         this.service = service;
         this.host = window.location.hostname
+        this.protocol = '//';
     }
 
     setHost(host) {
@@ -17,6 +18,11 @@ class Network {
 
     setPort(port) {
         this.port = port;
+        return this;
+    }
+
+    setProtocol(protocol) {
+        this.protocol = protocol;
         return this;
     }
 
@@ -32,7 +38,7 @@ class Network {
         json.route = route;
 
         let response = new XMLHttpRequest();
-        let url = '//' + this.host + ':' + this.port + this.remote;
+        let url = `${this.protocol}${this.host}:${this.port}${this.remote}`;
         response.open("POST", url);
         response.setRequestHeader("Content-Type", "application/json");
         response.send(JSON.stringify(json));

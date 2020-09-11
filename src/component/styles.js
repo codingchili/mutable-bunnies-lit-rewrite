@@ -2,6 +2,21 @@ import {html} from '/node_modules/lit-html/lit-html.js';
 
 export class BunnyStyles {
 
+    static get icons() {
+        return html`
+            .icon {
+                fill: var(--icon-color);
+                width: 24px;
+                height: 24px;
+                margin-top: 0px;
+            }
+        
+            .icon:hover {
+                fill: var(--accent-color);
+                cursor: pointer;
+            }`;
+    }
+
     static get variables() {
         return html`        
             * {
@@ -11,6 +26,7 @@ export class BunnyStyles {
                 --game-theme-opaque: #687f7d80;   
                 --accent-ripple-tab: #00b0ff;
                 --icon-color: #ddd;
+                --primary-text-color: #ffffff;
             }    
         `;
     }

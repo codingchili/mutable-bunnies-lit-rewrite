@@ -18,8 +18,6 @@ class GameLogin extends HTMLElement {
                 this.username.focus();
             }
         });
-
-        // todo: if game-login and authentication token already exists then move to realm select.
     }
 
     connectedCallback() {

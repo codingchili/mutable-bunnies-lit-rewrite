@@ -53,7 +53,7 @@ class AppView extends HTMLElement {
             </style>
 
             <bunny-bar id="toolbar" location="top">
-                <div slot="left" class="icon">
+                <div slot="left" class="icon" ?hidden="${this.authenticated}">
                     <!-- start.svg -->
                     <svg class="icon" @mousedown="${this._home.bind(this)}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                         <path d="M0 0h24v24H0z" fill="none"/>

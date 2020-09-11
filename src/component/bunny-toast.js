@@ -10,7 +10,7 @@ class BunnyToast extends HTMLElement {
 
     constructor() {
         super();
-        this.duration = 1500;
+        this.duration = 1850;
     }
 
     connectedCallback() {
@@ -23,7 +23,11 @@ class BunnyToast extends HTMLElement {
         let bar = this.shadowRoot.querySelector('bunny-bar');
 
         bar.classList.remove('hidden');
-        setTimeout(() => bar.classList.add('hidden'), this.duration);
+
+        if (this.timer) {
+            clearTimeout(this.timer);
+        }
+        this.timer = setTimeout((id) => bar.classList.add('hidden'), this.duration);
     }
 
     get template() {

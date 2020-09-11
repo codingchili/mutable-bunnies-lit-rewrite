@@ -59,7 +59,7 @@ export class PageGame extends HTMLElement {
                                 spans multiple dimensions, planes, transcends species and beliefs.
                             </p>
 
-                                <video muted loop autoplay src="/images/bunbun.webm" class="gif"></video>
+                                <video muted loop autoplay src="../images/bunbun.webm" class="gif"></video>
 
                             <p>
                                 Bunnies have been chosen for an extraordinary quest, a quest that
@@ -69,7 +69,7 @@ export class PageGame extends HTMLElement {
                                 there are many throughout the planes..
                             </p>
 
-                                <video muted loop autoplay class="gif" src="/images/squito.webm">
+                                <video muted loop autoplay class="gif" src="../images/squito.webm">
 
                             <p>
                                 Take on your worst bunny-fears and face all manners of scary creatures

@@ -1,10 +1,12 @@
 import {html, render} from '/node_modules/lit-html/lit-html.js';
-import {BunnyStyles} from '/component/styles.js';
+import {BunnyStyles} from '../component/styles.js';
 import '/component/bunny-box.js';
 import '/component/bunny-button.js';
 import '/component/bunny-tab.js';
 import '/component/bunny-pages.js';
-import '/component/page-game.js';
+import './page-game.js';
+import './page-news.js';
+import './page-patch.js';
 
 class StartPage extends HTMLElement {
 
@@ -66,17 +68,10 @@ class StartPage extends HTMLElement {
                             <bunny-tab>News</bunny-tab>
                             <bunny-tab>Patch notes</bunny-tab>
                         </div>
-                    
                         <div slot="pages">
-                            <bunny-box elevation="0">
-                                <page-game></page-game>
-                            </bunny-box>
-                            <bunny-box elevation="0">
-                                <page-news></page-news>
-                            </bunny-box>
-                            <bunny-box elevation="0">
-                                <page-patchnotes></page-patchnotes>
-                            </bunny-box>
+                            <page-game></page-game>
+                            <page-news></page-news>
+                            <page-patch></page-patch>
                         </div>
                     </bunny-pages>
 

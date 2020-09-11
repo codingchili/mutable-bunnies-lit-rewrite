@@ -65,7 +65,7 @@ class BunnyTab extends HTMLElement {
             }
             
             .active {
-                border-bottom: 2px solid var(--accent);
+                border-bottom: 2px solid var(--accent-color);
             }
             
             .tab-text {

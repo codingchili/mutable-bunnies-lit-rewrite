@@ -115,6 +115,8 @@ class Network {
     }
 }
 
+window.Network = Network;
+
 const ResponseStatus = {
     ACCEPTED: 'ACCEPTED',
     BAD: 'BAD',

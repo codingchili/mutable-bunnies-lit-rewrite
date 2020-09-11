@@ -89,7 +89,7 @@ class BunnyButton extends HTMLElement {
             }
             
             .primary {
-                background-color: var(--accent);
+                background-color: var(--accent-color);
             }
             
             .secondary {

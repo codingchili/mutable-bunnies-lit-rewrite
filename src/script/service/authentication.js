@@ -21,3 +21,5 @@ class Authentication {
             {account: {username:username, password:password, email:email}});
     }
 }
+
+window.Authentication = Authentication;

@@ -7,7 +7,7 @@ class BunnyInput extends HTMLElement {
         super();
 
         this.placeholder = this.getAttribute('placeholder') || '';
-        this.value = this.getAttribute('text') || '';
+        this.text = this.getAttribute('text') || '';
         this.label = this.getAttribute('label') || 'Label';
         this.type = this.getAttribute('type') || 'text';
 
@@ -16,8 +16,16 @@ class BunnyInput extends HTMLElement {
         }
     }
 
-    get text() {
-        return this.value;
+    clear() {
+        this.input.value = '';
+    }
+
+    set value(value) {
+        this.input.value = value;
+    }
+
+    get value() {
+        return this.input.value;
     }
 
     static get is() {
@@ -32,27 +40,28 @@ class BunnyInput extends HTMLElement {
         this.attachShadow({mode: 'open'});
         render(this.template, this.shadowRoot);
 
-        let input = this.query('#input');
+        this.input = this.query('#input');
+
         let underline = this.query('#underline');
         let label = this.query('#label');
 
         this.addEventListener('click', () => {
-            input.focus();
+            this.input.focus();
         });
 
-        input.addEventListener('blur', () => {
+        this.input.addEventListener('blur', () => {
             underline.classList.remove('underline-focus');
             label.classList.remove('label-focus');
         });
 
-        input.addEventListener('focus', () => {
+        this.input.addEventListener('focus', () => {
             underline.classList.add('underline-focus');
             label.classList.add('label-focus');
         });
     }
 
     focus() {
-        this.shadowRoot.querySelector('input').focus();
+        setTimeout(() => this.input.focus(), 0);
     }
 
     get template() {
@@ -134,7 +143,7 @@ class BunnyInput extends HTMLElement {
             
           <div id="container">
             <label id="label" class="label noselect">${this.label}</label>
-            <input spellcheck="false" auto type="${this.type}" id="input" class="bunny-input noselect" value="${this.value}" placeholder="${this.placeholder}"/>
+            <input spellcheck="false" auto type="${this.type}" id="input" class="bunny-input noselect" value="${this.text}" placeholder="${this.placeholder}"/>
             <div class="underline">
                 <div id="underline-default"></div>
                 <div id="underline"></div>

@@ -46,7 +46,7 @@ class BunnyBox extends HTMLElement {
                 }
                 
                 .solid {
-                    opacity: 1;
+                    opacity: 1 !important;
                 }
             </style>
             

@@ -11,7 +11,7 @@
     <script src="script/eventbus.js"></script>
     <script src="script/application.js"></script>
     <script type="module">
-        import './component/app-view.js';
+        import './page/app-view.js';
     </script>
 
     <style>
@@ -109,7 +109,6 @@
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             window.pwa = e;
-            console.log(e);
             application.publish('installed', !window.pwa);
         });
 

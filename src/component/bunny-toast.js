@@ -34,6 +34,7 @@ class BunnyToast extends HTMLElement {
         return html`
             <style>
                 :host {
+                    contain: content;
                     display: block;
                 }                
                 

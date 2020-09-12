@@ -46,6 +46,7 @@ class BunnyTab extends HTMLElement {
             ${BunnyStyles.variables}
         
             :host {
+                contain: content;
                 display:block;
                 width:100%;
             }
@@ -53,7 +54,7 @@ class BunnyTab extends HTMLElement {
             .tab {
                 min-width: 5.14em;
                 height: 2.8em;
-                position: relative;
+                /*position: relative;*/
                 background-color: #424242;
                 outline-width: 0;
                 user-select: none;

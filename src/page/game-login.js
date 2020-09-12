@@ -29,7 +29,7 @@ class GameLogin extends HTMLElement {
         return html`
         <style>
             :host {
-                position:relative;
+                /*position:relative;*/
                 display: block;
                 padding-top: 276px;
                 padding-bottom: 20px;

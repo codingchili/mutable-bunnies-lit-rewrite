@@ -71,6 +71,7 @@ class BunnyInput extends HTMLElement {
             ${BunnyStyles.noselect}
             
             :host {
+                contain: content;
                 margin-left: 24px;
                 margin-right: 24px;
                 margin-top: 8px;

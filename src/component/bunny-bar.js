@@ -22,6 +22,7 @@ class BunnyBar extends HTMLElement {
         return html`
             <style>
             :host {
+                contain: content;
                 display: block;
                 width: 100%;
                 position: fixed;

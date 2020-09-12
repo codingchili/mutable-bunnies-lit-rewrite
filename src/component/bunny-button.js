@@ -46,6 +46,7 @@ class BunnyButton extends HTMLElement {
             ${BunnyStyles.variables}
         
             :host {
+                contain: content;
                 display:block;
             }
         
@@ -53,7 +54,7 @@ class BunnyButton extends HTMLElement {
                 min-width: 5.14em;
                 height: 2.4em;
                 text-transform: uppercase;
-                position: relative;
+                /*position: relative;*/
            
                 color: #fff;
             

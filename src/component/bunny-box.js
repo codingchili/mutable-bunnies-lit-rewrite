@@ -7,8 +7,12 @@ class BunnyBox extends HTMLElement {
         return 'bunny-box';
     }
 
-    connectedCallback() {
+    constructor() {
+        super();
         this.attachShadow({mode: 'open'});
+    }
+
+    connectedCallback() {
         render(BunnyBox.template, this.shadowRoot);
 
         let container = this.shadowRoot.querySelector('.container');
@@ -28,6 +32,7 @@ class BunnyBox extends HTMLElement {
                 ${BunnyStyles.elevation}
                 
                 :host {
+                    contain: content;
                     display: block;
                 }
                 
@@ -40,7 +45,7 @@ class BunnyBox extends HTMLElement {
                     background-color: #161616;
                     opacity: 0.92;
                     display: block;
-                    position: relative;
+                    /*position: relative;*/
                     width: 100%;
                     height: 100%;
                 }

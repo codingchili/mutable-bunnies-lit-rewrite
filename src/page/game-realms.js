@@ -5,6 +5,7 @@ import '/component/bunny-pages.js'
 import '/component/bunny-tab.js'
 import '/component/bunny-spinner.js'
 import '/component/bunny-tooltip.js'
+import '/component/bunny-icon.js'
 
 class GameRealms extends HTMLElement {
 
@@ -131,7 +132,7 @@ class GameRealms extends HTMLElement {
         this.pingAll();
 
         if (application.development.selectFirstRealm) {
-            this.select(0);
+            this.select(this.realms[0]);
         }
     }
 
@@ -257,9 +258,10 @@ class GameRealms extends HTMLElement {
         }
     }
 
-    select(index) {
+    select(realm) {
+        console.log(realm);
         clearInterval(this.timer);
-        application.selectRealm(this.realms[index]);
+        application.selectRealm(realm);
     }
 
     render() {
@@ -271,6 +273,7 @@ class GameRealms extends HTMLElement {
         <style>
         ${BunnyStyles.variables}
         ${BunnyStyles.icons}
+        ${BunnyStyles.noselect}
         
         .icon {
             fill:red;
@@ -286,7 +289,6 @@ class GameRealms extends HTMLElement {
         
             :host {
                 display: block;
-                position: relative;
                 padding-top: 128px;
             }
 
@@ -450,24 +452,18 @@ class GameRealms extends HTMLElement {
 
         for (let realm of this.realms) {
             let template = html`
-        <tr class="realm-items" @mousedown="${this.select.bind(this)}">
+        <tr class="realm-items noselect" @click="${this.select.bind(this, realm)}">
             <td class="realm-item">
             <span class="icons">
                 <div ?hidden="${!this.favourite(realm.id)}">
-                    <div class="tooltip-area">
-                        <bunny-icon icon="favorite" class="realm-icon"></bunny-icon>
-                        <bunny-tooltip animation-delay="0" class="tooltip">
-                            <bunny-icon icon="favorite" class="realm-icon"></bunny-icon>                                
-                        </bunny-tooltip>
-                    </div>
+                        <bunny-icon icon="favorite" class="realm-icon" id="fav-icon"></bunny-icon>
+                        <bunny-tooltip for="fav-icon" location="bottom">favorite realm  </bunny-tooltip>
                 </div>
 
                 <div ?hidden="${!realm.secure}">
                     <div class="tooltip-area">
-                        <bunny-icon icon="secure" class="realm-icon"></bunny-icon>
-                        <paper-tooltip animation-delay="0" class="tooltip">
-                            <!--<span class="description">Secure connection.</span>-->
-                        </paper-tooltip>
+                        <bunny-icon icon="secure" class="realm-icon" id="secure"></bunny-icon>
+                        <bunny-tooltip for="secure" location="bottom">secure connection</bunny-tooltip>
                     </div>
                 </div>
             </span>
@@ -484,11 +480,10 @@ class GameRealms extends HTMLElement {
                 <span class="${realm.pingColor}">${realm.ping}</span>
             </td>
             <td>
-                <bunny-icon class="info" icon="info"></bunny-icon>
-                <!--<iron-icon class="info" icon="icons:info-outline"></iron-icon>-->
-                <!--<paper-tooltip animation-delay="0" class="tooltip">
+                <bunny-icon class="info" icon="info" id="info"></bunny-icon>
+                <bunny-tooltip for="info">
                     <span class="description">${realm.attributes.description}</span>
-                </paper-tooltip>-->
+                </bunny-tooltip>
             </td>
         </tr>
         `;

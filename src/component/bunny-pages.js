@@ -74,8 +74,9 @@ class BunnyPages extends HTMLElement {
         return html`
         <style>
             :host {
-                display:block;
-                width:100%;
+                contain: content;
+                display: block;
+                width: 100%;
             }
         </style>
         

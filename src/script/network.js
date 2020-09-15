@@ -123,7 +123,7 @@ class Network {
 
 window.Network = Network;
 
-const ResponseStatus = {
+window.ResponseStatus = {
     ACCEPTED: 'ACCEPTED',
     BAD: 'BAD',
     MISSING: 'MISSING',

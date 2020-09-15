@@ -23,8 +23,10 @@ class GameRealms extends HTMLElement {
 
         application.subscribe('view', (view) => {
             if (view === GameRealms.is) {
+                // skips waiting for next update if already updated before.
                 if (this.realms.length === 0) {
                     this.loading = true;
+                    this.render();
                 }
                 this.update();
                 this.timer = setInterval(this.update.bind(this), 3000);
@@ -113,11 +115,13 @@ class GameRealms extends HTMLElement {
                 accepted: (data) => {
                     this.load(data.realms);
                     this.loading = false;
+                    this.render();
                 },
                 failed: (error) => {
                     clearInterval(this.timer);
                     application.error("Failed to retrieve realm list from realm registry.");
                     this.loading = false;
+                    this.render();
                 }
             });
         }
@@ -259,7 +263,6 @@ class GameRealms extends HTMLElement {
     }
 
     select(realm) {
-        console.log(realm);
         clearInterval(this.timer);
         application.selectRealm(realm);
     }
@@ -341,10 +344,6 @@ class GameRealms extends HTMLElement {
                 cursor: default;
             }
 
-            .loader {
-                margin-top: 96px;
-            }
-
             @media (max-width: 728px) {
                 :host {
                     padding-top: 36px;
@@ -413,7 +412,7 @@ class GameRealms extends HTMLElement {
                                 provided by &trade;.</h5>
                         </div>
             
-                        <bunny-spinner class="loader" text="Loading realms.." enabled="${this.loading}"></bunny-spinner>            
+                        <bunny-spinner class="loader" text="Loading realms.." ?enabled="${this.loading}"></bunny-spinner>            
             
                         <div ?hidden="${this.loading}">
                             <table class="realm-table">

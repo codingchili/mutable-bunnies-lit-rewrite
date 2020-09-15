@@ -8,10 +8,10 @@ import './page-game.js';
 import './page-news.js';
 import './page-patch.js';
 
-class StartPage extends HTMLElement {
+class PageStart extends HTMLElement {
 
     static get is() {
-        return 'start-page';
+        return 'page-start';
     }
 
     get template() {
@@ -75,7 +75,6 @@ class StartPage extends HTMLElement {
                         </div>
                     </bunny-pages>
 
-                    
                     <a id="install-link" href="#" class="install-link" onclick="this.getRootNode().host._install()">install to desktop</a>                
                     <bunny-button primary class="flex" onclick="this.getRootNode().host.start()">TAKE ME ON AN ADVENTURE</bunny-button>
                 </bunny-box>
@@ -111,7 +110,7 @@ class StartPage extends HTMLElement {
             .then((choiceResult) => {
                 if (choiceResult.outcome === 'accepted') {
                     application.publish('installed', true);
-                    application.view('game-login');
+                    application.view('page-login');
                 } else {
                     console.log('User dismissed the A2HS prompt');
                 }
@@ -120,4 +119,4 @@ class StartPage extends HTMLElement {
     }
 }
 
-window.customElements.define(StartPage.is, StartPage);
+window.customElements.define(PageStart.is, PageStart);

@@ -3,9 +3,10 @@ import {BunnyStyles} from "../component/styles";
 import '/component/bunny-pages.js'
 import '/component/bunny-bar.js'
 import '/component/bunny-icon.js'
-import './start-page.js'
-import './game-login.js'
+import './page-start.js'
+import './page-login.js'
 import './game-realms.js'
+import './game-characters.js'
 
 class AppView extends HTMLElement {
 
@@ -57,10 +58,10 @@ class AppView extends HTMLElement {
                 <bunny-pages>
                     <div slot="tabs"></div>
                     <div slot="pages">
-                        <start-page class="layout horizontal center-justified"></start-page>
-                        <game-login class="layout horizontal center-justified"></game-login>
+                        <page-start class="layout horizontal center-justified"></page-start>
+                        <page-login class="layout horizontal center-justified"></page-login>
                         <game-realms class="layout horizontal center-justified"></game-realms>
-                        <character-list class="layout horizontal center-justified"></character-list>
+                        <game-characters class="layout horizontal center-justified"></game-characters>
                         <patch-download class="layout horizontal center-justified"></patch-download>
                         <game-view></game-view>
                         <offline-view class="layout horizontal center-justified"></offline-view>
@@ -77,8 +78,8 @@ class AppView extends HTMLElement {
     }
 
     connectedCallback() {
-        let start = (application.development.skipStart) ? 'game-login' : 'start-page';
-        this.view = (window.isPWA) ? 'game-login' : start;
+        let start = (application.development.skipStart) ? 'page-login' : 'page-start';
+        this.view = (window.isPWA) ? 'page-login' : start;
 
         application.onVersion(patch => {
             this.version = `${patch.name} ${patch.version}`
@@ -120,7 +121,7 @@ class AppView extends HTMLElement {
     }
 
     _home() {
-        application.view('start-page');
+        application.view('page-start');
     }
 
     _logout() {

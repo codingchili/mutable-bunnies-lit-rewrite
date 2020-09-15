@@ -5,16 +5,16 @@ import '/component/bunny-input.js';
 import '/component/bunny-button.js';
 import '/component/bunny-toast.js';
 
-class GameLogin extends HTMLElement {
+class PageLogin extends HTMLElement {
 
     static get is() {
-        return 'game-login';
+        return 'page-login';
     }
 
     constructor() {
         super();
         application.subscribe('view', (view) => {
-            if (view === GameLogin.is) {
+            if (view === PageLogin.is) {
                 this.username.focus();
             }
         });
@@ -248,4 +248,4 @@ class GameLogin extends HTMLElement {
     }
 }
 
-customElements.define(GameLogin.is, GameLogin);
+customElements.define(PageLogin.is, PageLogin);

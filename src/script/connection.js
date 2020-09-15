@@ -116,3 +116,5 @@ class Connection {
         }
     }
 }
+
+window.Connection = Connection;

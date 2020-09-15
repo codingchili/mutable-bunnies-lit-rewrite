@@ -10,8 +10,8 @@ class Application {
         this.development = {
             skipStart: true,
             autologin: true,
-            selectFirstRealm: false,
-            selectFirstCharacter: true,
+            selectFirstRealm: true,
+            selectFirstCharacter: false,
             clearCache: true,
             rightClick: true,
             logEvents: false,
@@ -184,7 +184,7 @@ class Application {
     }
 
     showLogin() {
-        application.view('game-login');
+        application.view('page-login');
     }
 
     showRealms() {
@@ -196,7 +196,7 @@ class Application {
     }
 
     showCharacters() {
-        application.view('character-list');
+        application.view('game-characters');
     }
 
     showPatcher() {

@@ -23,6 +23,9 @@ class BunnyBox extends HTMLElement {
         if (this.hasAttribute('solid')) {
             container.classList.add('solid');
         }
+        if (this.hasAttribute('sharp')) {
+            container.classList.remove('rounded');
+        }
     }
 
     static get template() {
@@ -32,30 +35,34 @@ class BunnyBox extends HTMLElement {
                 ${BunnyStyles.elevation}
                 
                 :host {
-                    contain: content;
                     display: block;
+                    box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14),
+                          0 1px 18px 0 rgba(0, 0, 0, 0.12),
+                          0 3px 5px -1px rgba(0, 0, 0, 0.4);
                 }
                 
                 .border {
                     border: 1px solid var(--game-theme-opaque);
-                    border-radius: 2px;
+                }
+                
+                .rounded {
+                    border-radius: 2px;                
                 }
                 
                 .container {
-                    background-color: #161616;
-                    opacity: 0.92;
+                    background-color: rgba(22,22,22,0.92);
                     display: block;
-                    /*position: relative;*/
+                    position: relative;
                     width: 100%;
                     height: 100%;
                 }
                 
                 .solid {
-                    opacity: 1 !important;
+                    background-color: rgba(22,22,22,1);
                 }
             </style>
             
-            <div class="container elevation">
+            <div class="container elevation rounded">
                 <slot></slot>
             </div>
         `;

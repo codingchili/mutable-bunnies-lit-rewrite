@@ -364,7 +364,7 @@ class CharacterList extends HTMLElement {
 
                 <div class="character-list-box" ?hidden="${!this.loaded}">
                     ${this.characters()}
-                    <bunny-button @click="${this.showCreate.bind(this)}">Create</bunny-button>
+                    <bunny-button @mousedown="${this.showCreate.bind(this)}">Create</bunny-button>
                 </div>
             </bunny-box>
         </div>
@@ -381,11 +381,11 @@ class CharacterList extends HTMLElement {
         if (this.realm.characters) {
             for (let character of this.realm.characters) {
                 let item = html`
-            <bunny-box class="character" solid @click="${this.select.bind(this, character)}" id="${character.id}">
-                <ink-ripple></ink-ripple>
+            <bunny-box class="character" @click="${this.select.bind(this, character)}" id="${character.id}">
                 <bunny-icon @click="${this.removeCharacter.bind(this, character)}" icon="close" class="character-remove"></bunny-icon>
                 <img src="${this.realm.resources}gui/class/${character.classId}.svg" class="class-image noselect">
                 <div class="character-name">${character.name}</div>
+                <ink-ripple></ink-ripple>
             </bunny-box>
             <bunny-tooltip animation-delay="0" class="tooltip" for="${character.id}">
                     <span class="tooltip-text">${this._className(character.classId)} ${this._level(character.stats)}</span>

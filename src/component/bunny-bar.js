@@ -22,7 +22,6 @@ class BunnyBar extends HTMLElement {
         return html`
             <style>
             :host {
-                contain: content;
                 display: block;
                 width: 100%;
                 position: fixed;
@@ -75,7 +74,7 @@ class BunnyBar extends HTMLElement {
             }
         </style>
 
-            <bunny-box ?solid="${this.solid}">
+            <bunny-box ?solid="${this.solid}" sharp>
                 <div id="container">
                     <div class="left text">
                         <slot name="left"></slot>

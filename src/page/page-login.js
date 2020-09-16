@@ -116,8 +116,11 @@ class PageLogin extends HTMLElement {
 
     submit(e) {
         if (e.keyCode === 13) {
-            if (!this.islogin) this.register();
-            if (this.islogin) this.authenticate();
+            if (this.islogin) {
+                this.authenticate();
+            } else {
+                this.register();
+            }
         }
     }
 
@@ -163,8 +166,8 @@ class PageLogin extends HTMLElement {
         }, this.username.value, this.password.value);
     }
 
-    register(e) {
-        if (this.password === this.repeat.value) {
+    register() {
+        if (this.password.value === this.repeat.value) {
             this.showToast('Registering..');
             this.authentication.register({
                 accepted: (data) => {
@@ -172,8 +175,8 @@ class PageLogin extends HTMLElement {
                     this.resetForm();
                     application.authenticated(data);
                 },
-                bad: (data) => {
-                    this.showToast('Error: ' + e);
+                bad: (e) => {
+                    this.showToast('Error: ' + e.message);
                 },
                 conflict: (data) => {
                     this.showToast('The username is not available.');

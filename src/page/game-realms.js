@@ -278,6 +278,10 @@ class GameRealms extends HTMLElement {
         ${BunnyStyles.icons}
         ${BunnyStyles.noselect}
         
+        :host {
+            padding-bottom: 16px;;
+        }
+        
         .icon {
             fill:red;
         }

@@ -177,20 +177,20 @@ class CharacterList extends HTMLElement {
         });
     }
 
-    removeCharacter(e) {
+    removeCharacter(character, e) {
         e.stopPropagation();
         this.realm.characters = [];
         this.showLoading('Removing character..');
 
         this.server.remove({
             accepted: () => {
-                this.showToast(`${e.model.character.name} is now a goner.`);
+                this.showToast(`${character.name} is now a goner.`);
                 this.loadCharacters();
             },
             error: () => {
                 application.error('Failed to connect to the authentication server to delete a character.');
             }
-        }, e.model.character.name);
+        }, character.name);
     }
 
     showLoading(status) {
@@ -223,10 +223,8 @@ class CharacterList extends HTMLElement {
         this.toast.open(text);
     }
 
-    select(e) {
-        let character = e.model.character;
-
-        if (this.realm.availableClasses.indexOf(e.model.character.classId) >= 0) {
+    select(character) {
+        if (this.realm.availableClasses.indexOf(character.classId) >= 0) {
             application.selectCharacter({
                 server: this.server,
                 realm: this.realm,
@@ -251,6 +249,16 @@ class CharacterList extends HTMLElement {
                 padding-top: 128px;
             }
 
+            ${BunnyStyles.headings}
+            ${BunnyStyles.noselect}
+            ${BunnyStyles.icons}
+            ${BunnyStyles.ripple}
+            
+            .icon {
+                margin-top: -4px;
+                margin-left: 8px;
+            }
+        
             .container {
                 display: block;
                 width: 582px;
@@ -264,18 +272,20 @@ class CharacterList extends HTMLElement {
                 cursor: pointer;
                 width: 128px;
                 height: 154px;
-                margin-left: 16px;
-                margin-right: 16px;
-                margin-bottom: 48px;
+                margin-left: 14px;
+                margin-right: 14px;
+                margin-bottom: 24px;
                 float: left;
+                padding: 2px;
             }
 
             .realm-title {
-                padding-top: 20px;
-                display: block;
                 text-align: center;
                 width: 100%;
                 height: 64px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
 
             .character-name {
@@ -311,7 +321,10 @@ class CharacterList extends HTMLElement {
             .character-remove {
                 z-index: 0;
                 float: right;
-                margin-bottom: -24px;
+                display: block;
+                position: absolute;
+                right: 4px;
+                top: 8px;
             }
 
             @media (max-width: 728px) {
@@ -334,27 +347,31 @@ class CharacterList extends HTMLElement {
                     width: 100%;
                 }
             }
+            bunny-button {
+                width: 100%;
+                margin-top: 32px;
+            }
         </style>
 
         <div ?hidden="${this.create}">
             <bunny-box class="container noselect" elevation="3">
                 <div class="realm-title">
                     <h4 style="display: inline-block">${this.realm.name}</h4>
-                    <bunny-icon icon="back" @mousedown="${this.realmlist.bind(this)}"></bunny-icon>
+                    <bunny-icon class="icon" icon="back" @mousedown="${this.realmlist.bind(this)}"></bunny-icon>
                 </div>
 
                 <bunny-spinner text="${this.status}" ?enabled="${!this.loaded}"></bunny-spinner>
 
                 <div class="character-list-box" ?hidden="${!this.loaded}">
                     ${this.characters()}
-                    <bunny-button on-tap="showCreate">Create</bunny-button>
+                    <bunny-button @click="${this.showCreate.bind(this)}">Create</bunny-button>
                 </div>
             </bunny-box>
-        </template>
-
+        </div>
+            
         <game-create id="creator" ?hidden="${!this.create}" class="character-create"></game-create>
+        
         <bunny-toast></bunny-toast>
-    </template>
         `;
     }
 
@@ -364,10 +381,10 @@ class CharacterList extends HTMLElement {
         if (this.realm.characters) {
             for (let character of this.realm.characters) {
                 let item = html`
-            <bunny-box class="character" @click="${this.select.bind(this, character)}" id="${character.id}">
+            <bunny-box class="character" solid @click="${this.select.bind(this, character)}" id="${character.id}">
                 <ink-ripple></ink-ripple>
                 <bunny-icon @click="${this.removeCharacter.bind(this, character)}" icon="close" class="character-remove"></bunny-icon>
-                <img src="${this.realm.resources}/gui/class/${character.classId}.svg" class="class-image">
+                <img src="${this.realm.resources}gui/class/${character.classId}.svg" class="class-image noselect">
                 <div class="character-name">${character.name}</div>
             </bunny-box>
             <bunny-tooltip animation-delay="0" class="tooltip" for="${character.id}">

@@ -17,6 +17,16 @@ export class BunnyStyles {
             }`;
     }
 
+    static get ripple() {
+        return html`
+            ink-ripple {
+                --ink-ripple-opacity: 0.6;
+                --ink-ripple-duration: 0.3s;
+                --ink-ripple-accent-color: #969696;
+              }
+        `;
+    }
+
     static get variables() {
         return html`        
             * {
@@ -64,6 +74,7 @@ export class BunnyStyles {
             margin: 0px;    
             padding: 0px;
             line-height: 1em;
+            user-select: none;
         }
         `;
     }

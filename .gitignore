@@ -1,0 +1,8 @@
+.gradle
+.idea/
+out/
+target/
+build/
+bower_components/
+src/node_modules/
+**.iml

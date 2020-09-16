@@ -77,9 +77,13 @@ class BunnyTooltip extends HTMLElement {
         let slot = this.shadowRoot.querySelector('slot')
 
         slot.addEventListener('slotchange', () => {
-            let target = this.parentNode.querySelector('#' + this.for)
+            let target = this.parentNode.querySelector('#' + this.for) ||
+                this.getRootNode().previousSibling
 
-            document.documentElement.appendChild(this);
+            console.log(this.getRootNode().previousSibling);
+            console.log(this.parentNode.querySelector('#' + this.for));
+
+            //document.documentElement.appendChild(this);
 
             target.addEventListener('mouseenter', (e) => {
                 this.style.display = 'block';

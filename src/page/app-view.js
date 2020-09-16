@@ -50,7 +50,7 @@ class AppView extends HTMLElement {
                 </div>
                 <div id="banner" slot="text"></div>
                 <div ?hidden="${!this.authenticated}" slot="right" class="icon" @mousedown="${this._logout.bind(this)}">
-                    <bunny-icon icon="logout">
+                    <bunny-icon icon="close">
                 </div>
             </bunny-bar>
 

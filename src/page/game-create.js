@@ -1,7 +1,9 @@
 import {html, render} from '/node_modules/lit-html/lit-html.js';
 import '/node_modules/ink-ripple/ink-ripple.js'
-import '../component/bunny-spinner.js'
+import '../component/bunny-button.js'
+import '../component/bunny-input.js'
 import '../component/bunny-box.js'
+import {BunnyStyles} from "../component/styles";
 
 class CharacterCreate extends HTMLElement {
 
@@ -10,10 +12,19 @@ class CharacterCreate extends HTMLElement {
     }
 
     connectedCallback() {
+        this.selected = {};
         this.attachShadow({mode: 'open'})
 
-        this.showSelect();
-        this.selected = false;//{name: 'Hunter'};
+        this.observer = new MutationObserver(events => {
+            for (let event of events) {
+                if (this.hasAttribute('hidden')) {
+                    render(``, this.shadowRoot);
+                } else {
+                    this.showSelect();
+                }
+            }
+        });
+        this.observer.observe(this, {attributes: true})
 
         application.onRealmLoaded((realm) => {
             this.realm = realm;
@@ -66,6 +77,7 @@ class CharacterCreate extends HTMLElement {
     showSelect() {
         this.selection = true;
         this.naming = false;
+        this.render();
     }
 
     showNaming(playerClass) {
@@ -73,6 +85,7 @@ class CharacterCreate extends HTMLElement {
         this.naming = true;
         this.selected = playerClass;
         this.querySelector('#name').focus();
+        this.render();
     }
 
     createCharacter(e) {
@@ -130,18 +143,25 @@ class CharacterCreate extends HTMLElement {
 
     get template() {
         return html`
-           <template>
         <style>
             :host {
                 display: block;
+                margin-top: -48px;
+                padding-bottom: 96px;
             }
+            
+            ${BunnyStyles.icons}
+            ${BunnyStyles.ripple}
+            ${BunnyStyles.noselect}
+            ${BunnyStyles.headings}
+            
 
-            .container {
+            .container {    
                 display: block;
                 width: 582px;
                 margin-bottom: 32px;
-                /* super important property that fixes a 1px jump on hover. */
                 backface-visibility: hidden;
+                margin: auto;
             }
 
             .list {
@@ -155,6 +175,7 @@ class CharacterCreate extends HTMLElement {
                 position: absolute;
                 top: 8px;
                 margin-left: 132px;
+                pointer-events: none;
             }
 
             .realm-title {
@@ -172,6 +193,7 @@ class CharacterCreate extends HTMLElement {
                 top: 46px;
                 margin-left: 146px;
                 margin-right: 24px;
+                pointer-events: none;
             }
 
             .class-image {
@@ -230,6 +252,7 @@ class CharacterCreate extends HTMLElement {
                 text-align: center;
                 font-size: smaller;
                 text-transform: uppercase;
+                pointer-events: none;
             }
 
             .keywords {
@@ -349,12 +372,11 @@ class CharacterCreate extends HTMLElement {
 
         </style>
 
-        <div class="container center-box noselect" elevation="3" ?hidden="${this.create}">
-            <div hidden="[[naming]]">
+        <bunny-box solid class="container noselect">
+            <div ?hidden="${this.naming}">
                 <div class="realm-title">
                     <h4 style="display: inline-block">Select class</h4>
-                    <iron-icon on-down="characterlist"
-                               icon="icons:reply"></iron-icon>
+                    <bunny-icon on-down="characterlist" icon="back"></bunny-icon>
                 </div>
 
                 <div class="list select">
@@ -362,36 +384,32 @@ class CharacterCreate extends HTMLElement {
                 </div>
             </div>
 
-            <div hidden$="[[selection]]">
+            <div ?hidden="${this.selection}">
                 <div class="realm-title">
-                    <h4 style="display: inline-block">Name your {{selected.name}}&nbsp;</h4>
-                    <iron-icon on-down="showSelect"
-                               icon="icons:reply"></iron-icon>
+                    <h4 style="display: inline-block">Name your ${this.selected.name}&nbsp;</h4>
+                    <bunny-icon on-down="showSelect" icon="back"></bunny-icon>
                 </div>
 
                 <div class="create-box">
-                    <paper-material elevation="0" class="character-class">
+                    <bunny-box elevation="0" class="character-class">
 
-                        <template is="dom-if" if="[[selected]]">
-                            <img src="{{realm.resources}}/gui/class/{{selected.id}}.svg"
-                                 class="selected-class-image">
-                        </template>
+                        <img ?hidden="${!this.selected}" src="{{realm.resources}}/gui/class/{{selected.id}}.svg"
+                             class="selected-class-image">
 
-                        <paper-input id="name" class="character-name" value="{{characterName}}"
+                        <bunny-input id="name" class="character-name" value="{{characterName}}"
                                      label="Name"
-                                     on-keydown="createCharacter"></paper-input>
+                                     on-keydown="createCharacter"></bunny-input>
 
-                        <iron-icon on-tap="createCharacter" class="create-button"
-                                   icon="icons:send"></iron-icon>
+                        <bunny-icon on-tap="createCharacter" class="create-button"
+                                   icon="icons:send"></bunny-icon>
 
                         <stats-view selected="[[_classInfo(classes, selected.id)]]"></stats-view>
-                    </paper-material>
+                    </bunny-box>
                 </div>
             </div>
-        </div>
+        </bunny-box>
 
         <!--<paper-toast class="fit-bottom" id="toast" text="[[toastText]]"></paper-toast>-->
-    </template>
         `;
     }
 
@@ -400,36 +418,36 @@ class CharacterCreate extends HTMLElement {
 
         for (let playerClass of this.realm.classes) {
             let item = html`
-                            <bunny-box elevation="3" class="character-class" on-tap="select" ?hidden="${!this._available(playerClass)}">
-                                <ink-ripple></ink-ripple>
+                <bunny-box elevation="3" class="character-class" on-tap="select" ?hidden="${!this._available(playerClass)}">
+                    <ink-ripple></ink-ripple>
 
-                                <div class="class-image">
-                                    <img src="${this.realm.resources}/gui/class/${playerclass.id}.svg" id="playerclass-container">
-                                    <bunny-tooltip location="left" for="playerclass-container">
-                                        <div class="class-stats">
-                                            Stats
-                                            <stats-view compact="true"
-                                                        selected="${this._classInfo(classes, playerClass.id)}">
-                                            </stats-view>
-                                        </div>
-                                    </bunny-tooltip>
-                                </div>
+                    <div class="class-image">
+                        <img src="${this.realm.resources}/gui/class/${playerClass.id}.svg" id="playerclass-container">
+                        <bunny-tooltip location="left" for="playerclass-container">
+                            <div class="class-stats">
+                                Stats
+                                <stats-view compact="true"
+                                            selected="${this._classInfo(classes, playerClass.id)}">
+                                </stats-view>
+                            </div>
+                        </bunny-tooltip>
+                    </div>
 
-                                <div class="class-name">${playerClass.name}</div>
-                                <div class="class-description">${playerClass.description}</div>
+                    <div class="class-name">${playerClass.name}</div>
+                    <div class="class-description">${playerClass.description}</div>
 
-                                <div class="spell-container">
-                                    ${this._spells(playerClass.spells)}
-                                </div>
+                    <div class="spell-container">
+                        ${this._spells(playerClass)}
+                    </div>
 
-                                <div class="tags">
-                                    ${playerClass.weapons}&nbsp;${playerClass.armors}
-                                </div>
+                    <div class="tags">
+                        ${playerClass.weapons}&nbsp;${playerClass.armors}
+                    </div>
 
-                                <div class="keywords">
-                                    ${playerClass.keywords}
-                                </div>
-                            </bunny-box>
+                    <div class="keywords">
+                        ${playerClass.keywords}
+                    </div>
+                </bunny-box>
             `;
 
             classes.push(item);
@@ -447,10 +465,10 @@ class CharacterCreate extends HTMLElement {
                     <img src="${this.realm.resources}/gui/spell/${spell}.svg"
                          class="spell-image">
 
-                    <paper-tooltip animation-delay="0" class="tooltip">
+                    <bunny-tooltip animation-delay="0" class="tooltip">
                         <div class="spell-name">${this._getSpellName(spell)}</div>
                         <div class="spell-description">${this._getSpellDescription(spell, playerClass.stats)}</div>
-                    </paper-tooltip>
+                    </bunny-tooltip>
                 </div>
             `;
 

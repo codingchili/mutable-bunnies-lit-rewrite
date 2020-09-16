@@ -24,7 +24,7 @@ class BunnyButton extends HTMLElement {
         // reset the ripple - when show/hide is used the ripple can get stuck.
         // the timeout allows the ripple effect to reset - if the button stays visible.
         let element = this.shadowRoot.querySelector('ink-ripple');
-        setTimeout(() => element._reset(), 125);
+        setTimeout(() => element._reset(), 625);
     }
 
     set clicked(callback) {
@@ -97,12 +97,7 @@ class BunnyButton extends HTMLElement {
                 background-color: #00000000;
             }
             
-            ink-ripple {
-                /*--ink-ripple-accent-color: ${this.ripple};*/
-                --ink-ripple-opacity: 0.6;
-                --ink-ripple-duration: 0.3s;
-                --ink-ripple-accent-color: #969696;
-              }
+            ${BunnyStyles.ripple}
         </style>
         
         <div class="button ${this.type}" onclick="this.getRootNode().host.onclicked()">

@@ -363,8 +363,10 @@ class CharacterList extends HTMLElement {
 
         <div ?hidden="${this.create}">
             <bunny-box class="container noselect" elevation="3">
-                <div class="realm-title">
-                    <h4 style="display: inline-block">${this.realm.name}</h4>
+                <div style="position: relative;">
+                    <div class="realm-title">
+                        <h4 style="display: inline-block">${this.realm.name}</h4>
+                    </div>
                     <bunny-icon class="icon back-icon" icon="back" @mousedown="${this.realmlist.bind(this)}"></bunny-icon>
                 </div>
 
@@ -389,15 +391,15 @@ class CharacterList extends HTMLElement {
         if (this.realm.characters) {
             for (let character of this.realm.characters) {
                 let item = html`
-            <bunny-box class="character" @click="${this.select.bind(this, character)}" id="${character.id}">
-                <bunny-icon @click="${this.removeCharacter.bind(this, character)}" icon="close" class="character-remove"></bunny-icon>
-                <img src="${this.realm.resources}gui/class/${character.classId}.svg" class="class-image noselect">
-                <div class="character-name">${character.name}</div>
-                <ink-ripple></ink-ripple>
-            </bunny-box>
-            <bunny-tooltip animation-delay="0" class="tooltip" for="${character.id}">
+                <bunny-box style="position: relative;" class="character" @click="${this.select.bind(this, character)}" id="${character.id}">
+                    <bunny-icon @click="${this.removeCharacter.bind(this, character)}" icon="close" class="character-remove"></bunny-icon>
+                    <img src="${this.realm.resources}gui/class/${character.classId}.svg" class="class-image noselect">
+                    <div class="character-name">${character.name}</div>
+                    <ink-ripple></ink-ripple>
+                </bunny-box>
+                <bunny-tooltip animation-delay="0" class="tooltip" for="${character.id}">
                     <span class="tooltip-text">${this._className(character.classId)} ${this._level(character.stats)}</span>
-            </bunny-tooltip>
+                </bunny-tooltip>
             `;
                 characters.push(item)
             }

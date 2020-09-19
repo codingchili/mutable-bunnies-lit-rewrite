@@ -19,8 +19,17 @@ class PageStart extends HTMLElement {
             <style>
                 :host {
                     display: block;
-                    padding-top: 128px;
-                    padding-bottom: 64px;
+                    padding-top: 64px;
+                }
+                
+                ${BunnyStyles.hr}
+                ${BunnyStyles.scrollbars}
+                ${BunnyStyles.links}
+
+                
+                div[slot="pages"] {
+                    max-height: 72vh;
+                    overflow-y: scroll;
                 }
 
                 .container {
@@ -54,14 +63,10 @@ class PageStart extends HTMLElement {
                     justify-content: space-around;  
                     align-items: stretch;
                 }
-                
-                ${BunnyStyles.links}
-
             </style>
 
             <div>
                 <bunny-box class="container center-box" elevation="3">
-
                     <bunny-pages class="page-content">
                         <div slot="tabs">
                             <bunny-tab active>Mutable Bunnies</bunny-tab>
@@ -75,6 +80,7 @@ class PageStart extends HTMLElement {
                         </div>
                     </bunny-pages>
 
+                    <hr>
                     <a id="install-link" href="#" class="install-link" onclick="this.getRootNode().host._install()">install to desktop</a>                
                     <bunny-button primary class="flex" onclick="this.getRootNode().host.start()">TAKE ME ON AN ADVENTURE</bunny-button>
                 </bunny-box>

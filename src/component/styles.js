@@ -2,6 +2,16 @@ import {html} from '/node_modules/lit-html/lit-html.js';
 
 export class BunnyStyles {
 
+    static get hr() {
+        return html`
+            hr {
+                border-color: var(--game-theme-opaque);
+                margin-left: 24px;
+                margin-right: 24px;
+            }
+        `;
+    }
+
     static get icons() {
         return html`
             .icon {

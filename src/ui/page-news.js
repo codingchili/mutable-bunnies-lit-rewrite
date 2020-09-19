@@ -55,7 +55,7 @@ class NewsPage extends HTMLElement {
             }
 
             .item {
-                margin: 32px;
+                
             }
 
             .date {
@@ -65,9 +65,7 @@ class NewsPage extends HTMLElement {
                 padding-bottom: 24px;
             }
             
-            hr {
-                border-color: var(--game-theme-opaque);
-            }
+            ${BunnyStyles.hr}
         </style>
 
         <div class="container">

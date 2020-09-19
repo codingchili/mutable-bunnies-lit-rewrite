@@ -4,6 +4,7 @@ import '/node_modules/ink-ripple/ink-ripple.js'
 import '../component/bunny-button.js'
 import '../component/bunny-input.js'
 import '../component/bunny-box.js'
+import '../component/bunny-tooltip.js'
 import '../ui/game/stats-view.js'
 
 class CharacterCreate extends HTMLElement {
@@ -297,6 +298,7 @@ class CharacterCreate extends HTMLElement {
                 margin-right: auto;
                 display: block;
                 opacity: 0.22;
+                min-height: 465px;
             }
 
             .create-box {
@@ -385,7 +387,7 @@ class CharacterCreate extends HTMLElement {
         </style>
 
         <bunny-box solid class="container noselect">
-            <div ?hidden="${this.naming}">
+            <div ?hidden="${this.naming}" style="position: relative;">
                 <div class="realm-title">
                     <h4 style="display: inline-block">Select class</h4>
                     <bunny-icon class="icon back-icon" @mousedown="${this.characterlist.bind(this)}" icon="back"></bunny-icon>
@@ -396,7 +398,7 @@ class CharacterCreate extends HTMLElement {
                 </div>
             </div>
 
-            <div ?hidden="${this.selection}">
+            <div ?hidden="${this.selection}" style="position: relative;">
                 <div class="realm-title">
                     <h4 style="display: inline-block">Name your ${this.selected.name}&nbsp;</h4>
                     <bunny-icon class="icon back-icon" @click="${this.showSelect.bind(this)}" icon="back"></bunny-icon>
@@ -475,13 +477,14 @@ class CharacterCreate extends HTMLElement {
         for (let spell of playerClass.spells) {
             let item = html`
                 <div class="spell">
-                    <img src="${this.realm.resources}/gui/spell/${spell}.svg"
-                         class="spell-image">
+                    <img src="${this.realm.resources}/gui/spell/${spell}.svg" class="spell-image">
 
-                    <!--<bunny-tooltip animation-delay="0" class="tooltip">
-                        <div class="spell-name">X{this._getSpellName(spell)}</div>
-                        <div class="spell-description">X{this._getSpellDescription(spell, playerClass.stats)}</div>
-                    </bunny-tooltip>-->
+                    <bunny-tooltip class="tooltip">
+                        <div>
+                            <div class="spell-name">${this._getSpellName(spell)}</div>
+                            <div class="spell-description">${this._getSpellDescription(spell, playerClass.stats)}</div>
+                        </div>
+                    </bunny-tooltip>
                 </div>
             `;
 

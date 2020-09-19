@@ -78,8 +78,12 @@ class PatchPage extends HTMLElement {
                 margin-left: 64px;
             }
 
+            h4 {
+                margin-top: 16px;
+                margin-bottom: 16px;
+            }
+
             .changes {
-                padding-top: 32px;
             }
         </style>
 
@@ -113,7 +117,7 @@ class PatchPage extends HTMLElement {
                 application.loadedVersion(json);
                 this.patch = json;
                 this.renderList();
-                render(PatchPage.template, this.shadowRoot);
+                render(PatchPage.template(this), this.shadowRoot);
             });
     }
 }

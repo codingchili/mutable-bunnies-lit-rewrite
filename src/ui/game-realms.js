@@ -335,10 +335,6 @@ class GameRealms extends HTMLElement {
                 margin-top: 14px;
             }
 
-            #tabs {
-                background-color: #000;
-            }
-
             .realm-icon {
                 color: #ff0000;
             }

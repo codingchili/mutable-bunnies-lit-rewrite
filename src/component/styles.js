@@ -95,7 +95,32 @@ export class BunnyStyles {
 
     static get scrollbars() {
         return `
-            /* check out index.html */
+            ::-webkit-scrollbar {
+            width: 6px;
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            /*background: var(--accent-color);*/    
+            background-color: #646464;
+            opacity: 0.76;
+        }
+
+        ::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+        }
+        
+        body::-webkit-scrollbar {
+            width: 0.4em;
+        }
+
+        body::-webkit-scrollbar-track {
+            background-color: #00000000;
+        }
+
+        body::-webkit-scrollbar-thumb {
+            background-color: #646464;
+        }
         `;
     }
 }

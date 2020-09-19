@@ -267,6 +267,14 @@ class CharacterList extends HTMLElement {
                 /* super important property that fixes a 1px jump on hover. */
                 backface-visibility: hidden;
             }
+            
+            .back-icon {
+                position: absolute;
+                right: 24px;
+                top: 20px;
+                padding-bottom: 9px;
+                display: block;
+            }
 
             .character {
                 cursor: pointer;
@@ -280,12 +288,12 @@ class CharacterList extends HTMLElement {
             }
 
             .realm-title {
-                text-align: center;
-                width: 100%;
-                height: 64px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
+                display: block;
+                padding-top: 24px;
+                margin-bottom: 24px;
+                margin-left: auto;
+                margin-right: auto;
+                width: fit-content;
             }
 
             .character-name {
@@ -319,7 +327,7 @@ class CharacterList extends HTMLElement {
             }
 
             .character-remove {
-                z-index: 0;
+                z-index: 100;
                 float: right;
                 display: block;
                 position: absolute;
@@ -357,14 +365,14 @@ class CharacterList extends HTMLElement {
             <bunny-box class="container noselect" elevation="3">
                 <div class="realm-title">
                     <h4 style="display: inline-block">${this.realm.name}</h4>
-                    <bunny-icon class="icon" icon="back" @mousedown="${this.realmlist.bind(this)}"></bunny-icon>
+                    <bunny-icon class="icon back-icon" icon="back" @mousedown="${this.realmlist.bind(this)}"></bunny-icon>
                 </div>
 
                 <bunny-spinner text="${this.status}" ?enabled="${!this.loaded}"></bunny-spinner>
 
                 <div class="character-list-box" ?hidden="${!this.loaded}">
                     ${this.characters()}
-                    <bunny-button @mousedown="${this.showCreate.bind(this)}">Create</bunny-button>
+                    <bunny-button @click="${this.showCreate.bind(this)}">Create</bunny-button>
                 </div>
             </bunny-box>
         </div>

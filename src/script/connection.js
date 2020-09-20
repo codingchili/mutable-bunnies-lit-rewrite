@@ -105,7 +105,7 @@ class Connection {
 
     onerror(event) {
         this.open = false;
-        application.error('Server error: connection closed.', true);
+        application.error('Server error: connection closed.');
     }
 
     onclose(event) {

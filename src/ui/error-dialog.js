@@ -29,7 +29,6 @@ class ErrorDialog extends HTMLElement {
         
             :host {
                 display: ${this.opened ? 'inline-block' : 'none'};
-                z-index: 600;
                 position: absolute;
                 top: 0;
                 left: 0;

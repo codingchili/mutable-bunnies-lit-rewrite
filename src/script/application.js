@@ -8,7 +8,7 @@ class Application {
 
     constructor() {
         this.development = {
-            skipStart: true,
+            skipStart: false,
             autologin: false,
             selectFirstRealm: false,
             selectFirstCharacter: false,
@@ -48,6 +48,9 @@ class Application {
     }
 
     error(error) {
+        if (typeof error === 'string') {
+            error = {text: error, callback: application.logout};
+        }
         application.publish('onError', error);
     }
 

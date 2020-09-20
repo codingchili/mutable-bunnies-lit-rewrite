@@ -81,17 +81,6 @@ class AppView extends HTMLElement {
         let start = (application.development.skipStart) ? 'page-login' : 'page-start';
         this.view = (window.isPWA) ? 'page-login' : start;
 
-
-        setTimeout(() => {
-            application.error({
-                retrying: true,
-                text: "Something went boom.",
-                callback: () => {
-                    console.log(this);
-                }
-            });
-        }, 2000);
-
         application.onError((e) => {
             import('./error-dialog.js').then(() => {
                 customElements.whenDefined('error-dialog').then(() => {

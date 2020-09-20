@@ -389,7 +389,6 @@ class GameRealms extends HTMLElement {
                 fill: var(--primary-text-color) !important;            
             }
             
-
             th, td {
                 padding: 0;
             }

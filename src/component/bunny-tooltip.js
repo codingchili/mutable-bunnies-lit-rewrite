@@ -75,6 +75,7 @@ class BunnyTooltip extends HTMLElement {
         render(this.template, this.shadowRoot);
 
         let slot = this.shadowRoot.querySelector('slot')
+        let last = 0;
 
         slot.addEventListener('slotchange', () => {
             let target = this.parentNode.querySelector(`#${this.for}`)
@@ -83,24 +84,34 @@ class BunnyTooltip extends HTMLElement {
             target.addEventListener('mouseenter', (e) => {
                 this.style.display = 'block';
 
+                clearTimeout(last);
+
                 setTimeout(() => {
+                    let offsetElement = target.parentNode;
+                    // calculate offset from targets first positioned parent
+                    while (offsetElement.parentNode) {
+                        let style = getComputedStyle(offsetElement)['position']
+                        if (style) {
+                            break;
+                        } else {
+                            offsetElement = offsetElement.parentNode
+                        }
+                    }
                     let position = this.position(this, target);
-                    this.style.top = `${position.y}px`;
-                    this.style.left = `${position.x}px`;
+                    this.style.top = `${position.y - offsetElement.getBoundingClientRect().top}px`;
+                    this.style.left = `${position.x - offsetElement.getBoundingClientRect().left}px`;
                     this.style.opacity = '1';
                 }, 0);
             });
 
-            let last = 0;
             target.addEventListener('mouseleave', () => {
-                // for testing
-                /*this.style.opacity = '0';
+                this.style.opacity = '0';
 
                 clearTimeout(last);
 
                 last = setTimeout((id) => {
                     this.style.display = 'none';
-                }, 300);*/
+                }, 300);
             });
         });
     }

@@ -62,6 +62,7 @@ class BunnySpinner extends HTMLElement {
                 font-size: smaller;
                 width: 100%;
                 margin-bottom: -88px;
+                user-select: none;
             }
 
             .spinner {
@@ -76,8 +77,6 @@ class BunnySpinner extends HTMLElement {
                 margin-left: auto;
                 margin-right: auto;
                 width: 364px;
-                padding-top: 32px;
-                padding-bottom: 32px;
                 display: block;
             }
 

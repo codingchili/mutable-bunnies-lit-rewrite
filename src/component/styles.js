@@ -40,6 +40,7 @@ export class BunnyStyles {
     static get variables() {
         return html`        
             * {
+                --backdrop-color: #00000070;
                 --input-container-color: #888;
                 --input-container-focus-color: #ddd;
                 --accent-color: rgb(0, 176, 255);     

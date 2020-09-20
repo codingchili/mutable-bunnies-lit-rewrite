@@ -70,7 +70,7 @@ class AppView extends HTMLElement {
             </div>
 
             <div id="error-dialog">
-                <error-dialog/>
+                <error-dialog></error-dialog>
             </div>
 
             <bunny-bar id="footer" location="bottom">${this.version}</bunny-bar>
@@ -80,6 +80,26 @@ class AppView extends HTMLElement {
     connectedCallback() {
         let start = (application.development.skipStart) ? 'page-login' : 'page-start';
         this.view = (window.isPWA) ? 'page-login' : start;
+
+
+        setTimeout(() => {
+            application.error({
+                retrying: true,
+                text: "Something went boom.",
+                callback: () => {
+                    console.log(this);
+                }
+            });
+        }, 2000);
+
+        application.onError((e) => {
+            import('./error-dialog.js').then(() => {
+                customElements.whenDefined('error-dialog').then(() => {
+                    this.render();
+                    this.shadowRoot.querySelector('error-dialog').open(e);
+                });
+            });
+        });
 
         application.onVersion(patch => {
             this.version = `${patch.name} ${patch.version}`

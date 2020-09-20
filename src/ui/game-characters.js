@@ -309,6 +309,7 @@ class CharacterList extends HTMLElement {
                 flex-wrap: wrap;
                 justify-content: center;
                 margin: auto;
+                position:relative;
             }
 
             .character-create {

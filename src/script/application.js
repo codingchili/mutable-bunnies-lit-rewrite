@@ -9,7 +9,7 @@ class Application {
     constructor() {
         this.development = {
             skipStart: true,
-            autologin: false,
+            autologin: true,
             selectFirstRealm: true,
             selectFirstCharacter: false,
             clearCache: true,
@@ -47,13 +47,11 @@ class Application {
         application.publish('onAuthentication', application);
     }
 
-    error(error, disconnect) {
-        let callback = (disconnect) ? application.showOffline : application.showLogin;
+    error(error) {
+        application.publish('onError', error);
+    }
 
-        application.publish('onLogout', {});
-        application.view('error-dialog');
-        application.publish('onError', {text: error, callback: callback});
-
+    kill(disconnect) {
         if (typeof game !== 'undefined') {
             try {
                 game.shutdown(disconnect);

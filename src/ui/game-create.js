@@ -158,6 +158,7 @@ class CharacterCreate extends HTMLElement {
                 margin-bottom: 32px;
                 backface-visibility: hidden;
                 margin: auto;
+                padding-bottom: 96px;
             }
             
             .back-icon {
@@ -171,8 +172,6 @@ class CharacterCreate extends HTMLElement {
             .list {
                 margin: auto;
                 max-width: 625px;
-                height: 78vh;
-                overflow-y: scroll;
             }
 
             .class-name {
@@ -394,7 +393,9 @@ class CharacterCreate extends HTMLElement {
                 </div>
 
                 <div class="list select">
-                    ${this.playerClasses()}
+                    <div class="wrapper">
+                        ${this.playerClasses()}
+                    </div>
                 </div>
             </div>
 

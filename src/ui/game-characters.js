@@ -32,7 +32,6 @@ class CharacterList extends HTMLElement {
 
                     let creator = this.shadowRoot.querySelector('#creator');
                     creator.setServer(this.server);
-                    creator.setToaster(this.showToast.bind(this));
 
                     this.showCharacters();
                     this.realmtoken();

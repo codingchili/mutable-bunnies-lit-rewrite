@@ -20,16 +20,7 @@ class StatsView extends HTMLElement {
     connectedCallback() {
         this.compact = this.getAttribute('compact');
         this.attachShadow({mode: 'open'})
-        this.render()
-
-
-
-        setInterval(() => {
-            this.render();
-        }, 1000);
     }
-
-
 
     constructor() {
         super();

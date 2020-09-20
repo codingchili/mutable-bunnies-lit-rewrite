@@ -1,5 +1,4 @@
 import {html, render} from '/node_modules/lit-html/lit-html.js';
-import {BunnyStyles} from "./styles";
 import './bunny-bar.js';
 
 class BunnyToast extends HTMLElement {
@@ -15,48 +14,41 @@ class BunnyToast extends HTMLElement {
 
     connectedCallback() {
         this.attachShadow({mode: 'open'});
+        render(this.template, this.shadowRoot);
     }
 
     open(text) {
         this.text = text;
-        render(this.template, this.shadowRoot);
-        let bar = this.shadowRoot.querySelector('bunny-bar');
+        let template = this.shadowRoot.querySelector('template');
+        template.content.querySelector('.toast-text').textContent = text;
+        let tooltip = template.content.cloneNode(true);
+        let bar = tooltip.querySelector('bunny-bar');
+        document.documentElement.appendChild(tooltip);
 
-        bar.classList.remove('hidden');
-
-        if (this.timer) {
-            clearTimeout(this.timer);
-        }
-        this.timer = setTimeout((id) => bar.classList.add('hidden'), this.duration);
+        setTimeout(() => bar.style.height = '36px', 0);
+        this.timer = setTimeout((id) => bar.style.height = '0', this.duration);
+        this.timer = setTimeout((id) => document.documentElement.removeChild(bar), this.duration + 1000);
     }
 
     get template() {
         return html`
-            <style>
-                :host {
-                    contain: content;
-                    display: block;
-                }                
-                
-                bunny-bar {
+            <template>
+                <bunny-bar location="bottom" class="hidden" solid style="
                     transition: height 1s cubic-bezier(0.16, 1, 0.3, 1); /* ease out expo */
                     z-index: 500;
-                }
-                
-                .hidden {
-                    height: 0 !important;
-                }
-                
-                ${BunnyStyles.variables}
-                
-                .toast-text {
-                    font-weight: 500;
-                    color: var(--accent-color);
-                }
-            </style>
-            <bunny-bar location="bottom" class="hidden" solid>
-                <span class="toast-text">${this.text}</span>
-            </bunny-bar>
+                    height: 0;
+                    position: absolute;
+                    overflow-y: hidden;">
+                    <span class="toast-text" style="
+                        font-weight: 800;
+                        position: absolute;
+                        top: 12px;
+                        left: 0;
+                        right: 0;                    
+                    "
+                    >${this.text}</span>
+                </bunny-bar>
+            </template>
         `;
     }
 }

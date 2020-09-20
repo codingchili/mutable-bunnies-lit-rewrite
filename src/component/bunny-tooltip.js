@@ -93,13 +93,14 @@ class BunnyTooltip extends HTMLElement {
 
             let last = 0;
             target.addEventListener('mouseleave', () => {
-                this.style.opacity = '0';
+                // for testing
+                /*this.style.opacity = '0';
 
                 clearTimeout(last);
 
                 last = setTimeout((id) => {
                     this.style.display = 'none';
-                }, 300);
+                }, 300);*/
             });
         });
     }

@@ -15,6 +15,7 @@ class CharacterCreate extends HTMLElement {
 
     connectedCallback() {
         this.selected = {};
+        this.icon = '#';
         this.attachShadow({mode: 'open'})
 
         this.observer = new MutationObserver(events => {
@@ -39,6 +40,7 @@ class CharacterCreate extends HTMLElement {
 
     select(playerClass) {
         this.selected = playerClass;
+        this.icon = `${this.realm.resources}gui/class/${this.selected.id}.svg`;
         this.showNaming(playerClass);
     }
 
@@ -72,6 +74,7 @@ class CharacterCreate extends HTMLElement {
     }
 
     showSelect() {
+        this.selected = {};
         this.selection = true;
         this.naming = false;
         this.render();
@@ -86,7 +89,7 @@ class CharacterCreate extends HTMLElement {
 
     createCharacter(e) {
         this.characterName = this.shadowRoot.querySelector('#name').value;
-        if (e.type === "tap" || e.keyCode === 13) {
+        if (e.type === "click" || e.keyCode === 13) {
             if (this.characterName.length === 0)
                 this.showToast('Character name must be longer than that.');
             else if (this.hasCharacter(this.characterName))
@@ -113,7 +116,7 @@ class CharacterCreate extends HTMLElement {
     }
 
     showToast(text) {
-        this.toaster(text);
+        this.toaster.open(text);
     }
 
     setServer(server) {
@@ -129,12 +132,9 @@ class CharacterCreate extends HTMLElement {
     }
 
     characterlist() {
+        this.selected = {};
         this.characterName = "";
         application.publish("cancel-create", {});
-    }
-
-    setToaster(toaster) {
-        this.toaster = toaster;
     }
 
     get template() {
@@ -407,23 +407,25 @@ class CharacterCreate extends HTMLElement {
                 <div class="create-box">
                     <div style="position: relative">
 
-                        <img ?hidden="${!this.selected}" src="${this.realm.resources}gui/class/${this.selected.id}.svg"
+                        <img ?hidden="${!this.selected}" src="${this.icon}"
                              class="selected-class-image">
 
                         <bunny-input id="name" class="character-name" value="${this.characterName}"
                                      label="Name"
                                      @keydown="${this.createCharacter.bind(this)}"></bunny-input>
 
-                        <bunny-icon @click="${this.createCharacter.bind(this)}" class="icon create-button"
-                                   icon="accept"></bunny-icon>
+                        <div class="create-button">
+                            <bunny-icon @click="${this.createCharacter.bind(this)}" class="icon"
+                                       icon="accept"></bunny-icon>
+                       </div>
 
                         <stats-view .selected="${this.selected}"></stats-view>
                     </div>
                 </div>
             </div>
         </bunny-box>
-
-        <!--<paper-toast class="fit-bottom" id="toast" text="[[toastText]]"></paper-toast>-->
+        
+        <bunny-toast id="toaster" location="bottom"></bunny-toast>
         `;
     }
 
@@ -478,14 +480,13 @@ class CharacterCreate extends HTMLElement {
             let item = html`
                 <div class="spell">
                     <img src="${this.realm.resources}/gui/spell/${spell}.svg" class="spell-image">
-
-                    <bunny-tooltip class="tooltip">
+                </div>
+                <bunny-tooltip class="tooltip">
                         <div>
                             <div class="spell-name">${this._getSpellName(spell)}</div>
                             <div class="spell-description">${this._getSpellDescription(spell, playerClass.stats)}</div>
                         </div>
                     </bunny-tooltip>
-                </div>
             `;
 
             spells.push(item);
@@ -503,6 +504,7 @@ class CharacterCreate extends HTMLElement {
     }
 
     bind() {
+        this.toaster = this.query("#toaster");
     }
 }
 

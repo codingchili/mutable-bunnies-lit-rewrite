@@ -108,9 +108,8 @@ class PageLogin extends HTMLElement {
                 <bunny-button class="margintop flex" @click="${this.showregister.bind(this)}">Register</bunny-button>
                 <bunny-button class="flex" primary @click="${this.authenticate.bind(this)}">Login</bunny-button>
             </div>
-        </bunny-box>
-        
             <bunny-toast></bunny-toast>
+        </bunny-box>
         `;
     }
 
@@ -143,7 +142,6 @@ class PageLogin extends HTMLElement {
 
         this.authentication.login({
             accepted: (data) => {
-                this.showToast('Loading..');
                 this.resetForm();
                 application.authenticated(data);
             },
@@ -171,7 +169,6 @@ class PageLogin extends HTMLElement {
             this.showToast('Registering..');
             this.authentication.register({
                 accepted: (data) => {
-                    this.showToast('Loading..');
                     this.resetForm();
                     application.authenticated(data);
                 },

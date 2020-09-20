@@ -132,7 +132,7 @@ class BunnySpinner extends HTMLElement {
         </style>
 
         <div ?hidden="${!this.enabled}">
-            <bunny-box class="loading-box">
+            <div class="loading-box">
                 <div class="container">                
                     <div class="lds-facebook">
                         <div></div>
@@ -141,7 +141,7 @@ class BunnySpinner extends HTMLElement {
                     </div>
                     <div class="loading-text">${this.message}</div>
                 </div>
-            </bunny-box>
+            </div>
         </div>
         `;
     }

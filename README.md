@@ -5,7 +5,7 @@ https://github.com/codingchili/mutable-bunnies-client
 
 The client has 2 dependencies, lit-html and ink-ripple, everything else is custom components.
 
-Views in the game to rewrite
+Views in the game to rewrite - [ui](src/ui)
 
 - [x] Start page
 - [x] Login view
@@ -16,7 +16,7 @@ Views in the game to rewrite
 - [x] Game loader
 - [ ] All of the game UI tbd.
 
-Components that needs to be replaced
+Components that needs to be replaced - [components](src/components)
 
 - [x] paper-tooltip -> bunny-tooltip
 - [x] paper-input -> bunny-input

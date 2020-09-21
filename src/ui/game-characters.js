@@ -163,11 +163,7 @@ class CharacterList extends HTMLElement {
                 }
 
                 if (application.development.selectFirstCharacter) {
-                    this.select({
-                        model: {
-                            character: data.characters[0]
-                        }
-                    })
+                    this.select(data.characters[0]);
                 }
             },
             unauthorized: (data) => {

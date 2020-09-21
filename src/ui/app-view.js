@@ -7,6 +7,7 @@ import './page-start.js'
 import './page-login.js'
 import './game-realms.js'
 import './game-characters.js'
+import './patch-download.js'
 
 class AppView extends HTMLElement {
 

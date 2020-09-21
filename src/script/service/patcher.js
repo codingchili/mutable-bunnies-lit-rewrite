@@ -66,17 +66,17 @@ class Patcher {
         this.patch.size = 0;
         let transferred = 0;
 
-        for (let key in files) {
-            this.patch.size += files[key].data.length;
+        for (let file of files) {
+            this.patch.size += file.data.length;
         }
 
         worker.started(this.patch.name, this.patch.version, this.patch.size, this.patch.files);
 
         let i = 0;
-        for (let key in files) {
+        for (let file of files) {
             i++;
-            let size = files[key].data.length;
-            files[key].data = this.dataURIToBlob(files[key].data);
+            let size = file.data.length;
+            file.data = this.dataURIToBlob(file.data);
             transferred += size;
             // does not emit bandwidth or downloaded per file.
             worker.progress(0, transferred, 0, Object.keys(files).indexOf(files[key].name));
@@ -100,27 +100,22 @@ class Patcher {
                  file.data = base64data;
                  save[key] = file;
                  i++;
-
-                 if (i === Object.keys(patch.files).length) {
-                    localStorage.setItem("files@" + this.url, JSON.stringify(save));
-                 }
              };
         }
+        localStorage.setItem("files@" + this.url, JSON.stringify(save));
     }
 
     // see: https://stackoverflow.com/a/12300351
     dataURIToBlob(dataURI) {
-          var byteString = atob(dataURI.split(',')[1]);
-          var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
-          var ab = new ArrayBuffer(byteString.length);
-          var ia = new Uint8Array(ab);
+        let byteString = atob(dataURI.split(',')[1]);
+        let mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+        let ab = new ArrayBuffer(byteString.length);
+        let ia = new Uint8Array(ab);
 
-          for (var i = 0; i < byteString.length; i++) {
+        for (let i = 0; i < byteString.length; i++) {
               ia[i] = byteString.charCodeAt(i);
           }
-
-          var blob = new Blob([ab], {type: mimeString});
-          return blob;
+        return new Blob([ab], {type: mimeString});
     }
 
     patchSize(done) {
@@ -145,6 +140,10 @@ class Patcher {
                xhr.onreadystatechange = () => {
                    if (xhr.readyState === 2) {
                        file.size = parseInt(xhr.getResponseHeader("Content-Length"));
+
+                       if (isNaN(file.size)) {
+                           file.size = 0; // some webservers don't return a length for certain resource types.
+                       }
                        countdown(file);
                    }
                };
@@ -213,4 +212,4 @@ class Patcher {
     }
 }
 
-var patcher = new Patcher();
+window.patcher = new Patcher();

@@ -402,7 +402,7 @@ class CharacterCreate extends HTMLElement {
             <div ?hidden="${this.selection}" style="position: relative;">
                 <div class="realm-title">
                     <h4 style="display: inline-block">Name your ${this.selected.name}&nbsp;</h4>
-                    <bunny-icon class="icon back-icon" @click="${this.showSelect.bind(this)}" icon="back"></bunny-icon>
+                    <bunny-icon class="icon back-icon" @mousedown="${this.showSelect.bind(this)}" icon="back"></bunny-icon>
                 </div>
 
                 <div class="create-box">

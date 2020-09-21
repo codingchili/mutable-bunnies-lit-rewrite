@@ -1,4 +1,5 @@
 import {html, render} from '/node_modules/lit-html/lit-html.js';
+import {BunnyStyles} from "./styles.js";
 
 /* this is teh mmega loader */
 class BunnySpinner extends HTMLElement {
@@ -11,16 +12,20 @@ class BunnySpinner extends HTMLElement {
         super();
         this.enabled = this.hasAttribute('enabled') || false;
         this.message = this.getAttribute('text');
+        this.spinner = this.hasAttribute('spinner');
 
         this.observer = new MutationObserver((events) => {
             for (let mutation of events) {
                 this.message = this.getAttribute("text");
+                this.spinner = this.hasAttribute('spinner');
 
-                if (this.hasAttribute('enabled')) {
-                    this.enable();
-                } else {
-                    this.disable();
-                }
+                setTimeout(() => {
+                    if (this.hasAttribute('enabled')) {
+                        this.enable();
+                    } else {
+                        this.disable();
+                    }
+                }, 0);
             }
         });
         this.observer.observe(this, {attributes: true});
@@ -79,11 +84,39 @@ class BunnySpinner extends HTMLElement {
                 width: 364px;
                 display: block;
             }
+            
+            ${BunnyStyles.variables}
 
+            /* spinner-code from loading.io */
             @media (max-width: 728px){
                 .loading-box {
                     width: unset;
                 }
+            }.lds-dual-ring {
+              display: block;
+              width: 100px;
+              height: 80px;
+              margin: auto;
+              padding-bottom: 32px;
+            }
+            .lds-dual-ring:after {
+              content: " ";
+              display: block;
+              width: 64px;
+              height: 64px;
+              margin: 8px;
+              border-radius: 50%;
+              border: 6px solid var(--accent-color);
+              border-color: var(--accent-color) transparent var(--accent-color) transparent;
+              animation: lds-dual-ring 0.92s linear infinite;
+            }
+            @keyframes lds-dual-ring {
+              0% {
+                transform: rotate(0deg);
+              }
+              100% {
+                transform: rotate(360deg);
+              }
             }
             
             /* spinner code from loading.io */
@@ -132,12 +165,15 @@ class BunnySpinner extends HTMLElement {
 
         <div ?hidden="${!this.enabled}">
             <div class="loading-box">
-                <div class="container">                
-                    <div class="lds-facebook">
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                    </div>
+                <div class="container">
+                    ${this.spinner ? 
+                        html`<div class="lds-dual-ring"></div>` : 
+                        html`<div class="lds-facebook">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>`
+                    }
                     <div class="loading-text">${this.message}</div>
                 </div>
             </div>

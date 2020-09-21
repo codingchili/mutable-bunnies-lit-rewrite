@@ -14,11 +14,6 @@ class PatchDownload extends HTMLElement {
         this.downloading = false;
         this.patch = {};
 
-        application.onCompleteUpdate((event) => {
-            // tbd move to ... game-view.js !
-            event.status("Loading scripts..");
-        });
-
         application.onCharacterSelect((event) => {
             this.status = "Checking version..";
             this.initializing = false;

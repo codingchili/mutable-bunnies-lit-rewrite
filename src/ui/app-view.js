@@ -8,6 +8,7 @@ import './page-login.js'
 import './game-realms.js'
 import './game-characters.js'
 import './patch-download.js'
+import './game-view.js'
 
 class AppView extends HTMLElement {
 
@@ -45,15 +46,17 @@ class AppView extends HTMLElement {
                 ${BunnyStyles.icons}
             </style>
 
-            <bunny-bar id="toolbar" location="top">
-                <div slot="left" class="icon" ?hidden="${this.authenticated}">
-                    <bunny-icon @mousedown="${this._home.bind(this)}" icon="home">
-                </div>
-                <div id="banner" slot="text"></div>
-                <div ?hidden="${!this.authenticated}" slot="right" class="icon" @mousedown="${this._logout.bind(this)}">
-                    <bunny-icon icon="close">
-                </div>
-            </bunny-bar>
+            ${this.game ? '' : html`
+                <bunny-bar id="toolbar" location="top">
+                    <div slot="left" class="icon" ?hidden="${this.authenticated}">
+                        <bunny-icon @mousedown="${this._home.bind(this)}" icon="home">
+                    </div>
+                    <div id="banner" slot="text"></div>
+                    <div ?hidden="${!this.authenticated}" slot="right" class="icon" @mousedown="${this._logout.bind(this)}">
+                        <bunny-icon icon="close">
+                    </div>
+                </bunny-bar>
+            `}
 
             <div id="container">
                 <bunny-pages>
@@ -74,13 +77,12 @@ class AppView extends HTMLElement {
                 <error-dialog></error-dialog>
             </div>
 
-            <bunny-bar id="footer" location="bottom">${this.version}</bunny-bar>
+            ${this.game ? '' : html`<bunny-bar id="footer" location="bottom">${this.version}</bunny-bar>`}            
         `;
     }
 
     connectedCallback() {
-        let start = (application.development.skipStart) ? 'page-login' : 'page-start';
-        this.view = (window.isPWA) ? 'page-login' : start;
+        let start = (window.isPWA || application.development.skipStart) ? 'page-login' : 'page-start';
 
         application.onError((e) => {
             import('./error-dialog.js').then(() => {
@@ -112,9 +114,10 @@ class AppView extends HTMLElement {
         });
 
         this.banner();
-        this.attachShadow({mode: 'open'});
-        this.render();
 
+        this.attachShadow({mode: 'open'});
+
+        this.render();
         customElements.whenDefined('bunny-pages').then(() => application.publish('view', start));
     }
 
@@ -143,12 +146,12 @@ class AppView extends HTMLElement {
 
     setView(view) {
         let pages = this.shadowRoot.querySelector('bunny-pages');
+        this.game = (view === 'game-view');
+
         view = this.shadowRoot.querySelector(view);
         pages.update(view.getAttribute('index'));
-    }
 
-    _gameVisible() {
-        return this.view === 'game-view';
+        this.render();
     }
 }
 

@@ -66,17 +66,17 @@ class Patcher {
         this.patch.size = 0;
         let transferred = 0;
 
-        for (let file of files) {
-            this.patch.size += file.data.length;
+        for (let key in files) {
+            this.patch.size += files[key].data.length;
         }
 
         worker.started(this.patch.name, this.patch.version, this.patch.size, this.patch.files);
 
         let i = 0;
-        for (let file of files) {
+        for (let key in files) {
             i++;
-            let size = file.data.length;
-            file.data = this.dataURIToBlob(file.data);
+            let size = files[key].data.length;
+            files[key].data = this.dataURIToBlob(files[key].data);
             transferred += size;
             // does not emit bandwidth or downloaded per file.
             worker.progress(0, transferred, 0, Object.keys(files).indexOf(files[key].name));
@@ -100,9 +100,12 @@ class Patcher {
                  file.data = base64data;
                  save[key] = file;
                  i++;
+
+                 if (i === Object.keys(patch.files).length) {
+                    localStorage.setItem("files@" + this.url, JSON.stringify(save));
+                 }
              };
         }
-        localStorage.setItem("files@" + this.url, JSON.stringify(save));
     }
 
     // see: https://stackoverflow.com/a/12300351

@@ -16,7 +16,7 @@ Views in the game to rewrite - [ui](src/ui)
 - [x] Game loader
 - [ ] All of the game UI tbd.
 
-Components that needs to be replaced - [components](src/components)
+Components that needs to be replaced - [components](src/component)
 
 - [x] paper-tooltip -> bunny-tooltip
 - [x] paper-input -> bunny-input

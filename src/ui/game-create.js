@@ -158,7 +158,6 @@ class CharacterCreate extends HTMLElement {
                 margin-bottom: 32px;
                 backface-visibility: hidden;
                 margin: auto;
-                padding-bottom: 96px;
             }
             
             .back-icon {

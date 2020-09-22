@@ -204,6 +204,8 @@ class CharacterCreate extends HTMLElement {
             .class-image {
                 max-width: 128px;
                 max-height: 128px;
+                min-width: 128px;
+                min-height: 128px;
             }
 
             .container {

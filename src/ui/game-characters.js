@@ -263,6 +263,13 @@ class CharacterList extends HTMLElement {
                 backface-visibility: hidden;
             }
             
+            .class-image {
+                max-width: 128px;
+                max-height: 128px;
+                min-width: 128px;
+                min-height: 128px;
+            }
+            
             .back-icon {
                 position: absolute;
                 right: 24px;

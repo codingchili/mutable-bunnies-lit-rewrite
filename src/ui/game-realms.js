@@ -133,7 +133,9 @@ class GameRealms extends HTMLElement {
 
         this.refresh(realmlist);
         this.purge(realmlist);
-        this.pingAll();
+
+        // let initial load complete before pinging, to increase accuracy of first update.
+        setTimeout(this.pingAll.bind(this), 250);
 
         if (application.development.selectFirstRealm) {
             this.select(this.realms[0]);

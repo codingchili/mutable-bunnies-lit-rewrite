@@ -127,6 +127,10 @@ class PageLogin extends HTMLElement {
         this.toast.open(text);
     }
 
+    hideToast() {
+        this.toast.close();
+    }
+
     submit(e) {
         if (e.keyCode === 13) {
             if (!this.islogin)
@@ -193,6 +197,7 @@ class PageLogin extends HTMLElement {
     }
 
     resetForm() {
+        this.hideToast();
         this.repeat.clear();
         this.password.clear();
         this.email.clear();

@@ -22,12 +22,22 @@ class BunnyToast extends HTMLElement {
         let template = this.shadowRoot.querySelector('template');
         template.content.querySelector('.toast-text').textContent = text;
         let tooltip = template.content.cloneNode(true);
-        let bar = tooltip.querySelector('bunny-bar');
+
+        this.bar = tooltip.querySelector('bunny-bar');
         document.documentElement.appendChild(tooltip);
 
-        setTimeout(() => bar.style.height = '36px', 0);
-        this.timer = setTimeout((id) => bar.style.height = '0', this.duration);
-        this.timer = setTimeout((id) => document.documentElement.removeChild(bar), this.duration + 1000);
+        setTimeout(() => this.bar.style.height = '36px', 0);
+        this.timer = setTimeout(this.close.bind(this), this.duration);
+    }
+
+    close() {
+        this.bar.style.height = '0'
+        clearInterval(this.timer);
+        setTimeout(this._remove.bind(this), 1000);
+    }
+
+    _remove() {
+        document.documentElement.removeChild(this.bar)
     }
 
     get template() {

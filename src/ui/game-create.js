@@ -101,6 +101,7 @@ class CharacterCreate extends HTMLElement {
                     accepted: () => {
                         application.publish("character-create", {});
                         this.characterName = "";
+                        this.hideToast();
                         this.showSelect();
                     },
                     error: (msg) => {
@@ -117,6 +118,10 @@ class CharacterCreate extends HTMLElement {
 
     showToast(text) {
         this.toaster.open(text);
+    }
+
+    hideToast() {
+        this.toaster.close();
     }
 
     setServer(server) {

@@ -14,16 +14,18 @@ class GameView extends HTMLElement {
             game.subscribe('character-update', character => {
                 if (character === game.player) {
                     this.player = character;
+                    this.render();
                 }
             });
 
             game.subscribe('character-target', character => {
                 this.target = character;
+                this.render();
             });
             game.subscribe('creature-despawn', creature => {
                 if (creature.id === this.target.id) {
                     this.target = false;
-                    this.notifyPath('target');
+                    this.render();
                 }
             })
         });

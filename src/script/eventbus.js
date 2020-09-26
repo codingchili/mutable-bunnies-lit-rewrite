@@ -18,7 +18,7 @@ window.EventBus = class EventBus {
 
     publish(event, data) {
         if (application.development.logEvents) {
-            console.log(`publishing event ${event} -> ${JSON.stringify(data)}`);
+            console.log(`publishing event ${event}`);
         }
 
         if (this.handlers[event])

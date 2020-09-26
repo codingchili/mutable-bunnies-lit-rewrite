@@ -1,5 +1,5 @@
 import {html, render} from '/node_modules/lit-html/lit-html.js';
-
+import './game/player-status.js'
 
 class GameView extends HTMLElement {
 
@@ -171,7 +171,7 @@ class GameView extends HTMLElement {
                 </template>
 
                 <!-- player -->
-                <player-status target="[[player]]"></player-status>
+                <player-status .target="${this.player}"></player-status>
 
                 <party-view></party-view>
 

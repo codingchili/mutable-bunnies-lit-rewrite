@@ -75,9 +75,7 @@
                 } else {
                     // failed to retrieve controller, assume online.
                     resolve({
-                        data: {
-                            offline: false
-                        }
+                        offline: false
                     });
                 }
             });
@@ -95,7 +93,7 @@
 
             navigator.serviceWorker.ready.then(() => {
                 send_message_to_sw("is offline?").then(event => {
-                    application.offline = event.data.offline;
+                    application.offline = event.offline;
                     console.log(`offline=${application.offline}`);
                     application.publish('offline', application.offline);
 

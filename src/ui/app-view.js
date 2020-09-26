@@ -8,6 +8,7 @@ import './page-login.js'
 import './game-realms.js'
 import './game-characters.js'
 import './patch-download.js'
+import './offline-view.js'
 import './game-view.js'
 
 class AppView extends HTMLElement {
@@ -118,7 +119,13 @@ class AppView extends HTMLElement {
         this.attachShadow({mode: 'open'});
 
         this.render();
-        customElements.whenDefined('bunny-pages').then(() => application.publish('view', start));
+        customElements.whenDefined('bunny-pages').then(() => {
+            if (!application.offline) {
+                application.publish('view', start)
+            } else {
+                application.showOffline();
+            }
+        });
     }
 
     banner() {

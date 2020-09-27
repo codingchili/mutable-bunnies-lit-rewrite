@@ -8,13 +8,13 @@ class Application {
 
     constructor() {
         this.development = {
-            skipStart: true,
+            skipStart: false,
             autologin: false,
-            selectFirstRealm: false,
+            selectFirstRealm: true,
             selectFirstCharacter: false,
-            clearCache: false,
+            clearCache: true,
             rightClick: true,
-            logEvents: false,
+            logEvents: true,
             hardResetXY: true,
             metrics: true
         };

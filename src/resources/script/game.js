@@ -190,7 +190,10 @@ window.Game = class Game extends Canvas {
     _counter(text) {
         this.counters = this.counters || 0;
 
-        let counter = new PIXI.Text(text, this.texts.style());
+        let counter = new PIXI.Text(text, Object.assign(this.texts.style(), {
+            fontWeight: 'normal',
+            fontStyle: 'normal'
+        }));
         counter.id = this.counters++;
         counter.y = (this._height() - 128) + 16 * counter.id + 16;
         counter.x = this._width() - 128;

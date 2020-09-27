@@ -42,7 +42,7 @@ class BunnyProgress extends HTMLElement {
             <style>
                 :host {
                     display: block;
-                    padding: 16px;
+                    height: 4px;
                 }
                 
                 .elevation {
@@ -56,12 +56,12 @@ class BunnyProgress extends HTMLElement {
                 
                 .outline {
                     right: 0;
-                    background-color: darkgray;
+                    background-color: var(--bunny-progress-container-color, darkgray);
                 }
                 
                 .fill {
                     width: ${this.percent()}%;
-                    background-color: aqua;
+                    background-color: var(--bunny-progress-active-color, aqua);
                     transition: width 0.16s ease-out;
                 }
                 

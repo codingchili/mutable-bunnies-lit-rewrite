@@ -9,6 +9,7 @@ class GameView extends HTMLElement {
 
     constructor() {
         super();
+        this.target = false;
 
         application.onGameLoaded(() => {
             game.subscribe('character-update', character => {
@@ -158,7 +159,7 @@ class GameView extends HTMLElement {
         </style>
         <div id="interface">
             <notification-toaster></notification-toaster>
-            <template is="dom-if" if="[[!loading]]">
+            <!--<div ?hidden="${this.loading}">-->
 
                 <quest-log></quest-log>
                 <game-dialog></game-dialog>
@@ -167,10 +168,7 @@ class GameView extends HTMLElement {
                 <player-inventory></player-inventory>
                 <friend-view></friend-view>
 
-                <template is="dom-if" if="[[target]]">
-                    <!-- target -->
-                    <player-status target="[[target]]" style="right: 16px; left: unset;"></player-status>
-                </template>
+                <player-status .target="${this.target}" style="right: 16px; left: unset;" ?hidden="${!this.target}"></player-status>
 
                 <!-- player -->
                 <player-status .target="${this.player}"></player-status>
@@ -182,7 +180,7 @@ class GameView extends HTMLElement {
                 <world-designer></world-designer>
                 <game-menu></game-menu>
                 <context-menu></context-menu>
-            </template>
+            <!--</div>-->
         </div>
         `;
     }
@@ -190,6 +188,7 @@ class GameView extends HTMLElement {
     loaded() {
         this.loading = false;
         this.target = false;
+        this.render();
     }
 
     _handleError(err) {

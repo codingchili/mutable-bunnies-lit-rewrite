@@ -39,6 +39,7 @@ class BunnyBox extends HTMLElement {
                     box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14),
                           0 1px 18px 0 rgba(0, 0, 0, 0.12),
                           0 3px 5px -1px rgba(0, 0, 0, 0.4);
+                    
                 }
                 
                 .border {
@@ -50,8 +51,8 @@ class BunnyBox extends HTMLElement {
                 }
                 
                 .container {
-                    background-color: rgba(22,22,22,0.92);
-                    display: block;
+                    background-color: rgba(22,22,22,0.86);
+                    display: inline-block;
                     /*position: relative;*/
                     width: 100%;
                     height: 100%;

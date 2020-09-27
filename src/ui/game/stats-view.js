@@ -6,6 +6,13 @@ class StatsView extends HTMLElement {
         return 'stats-view';
     }
 
+    constructor() {
+        super();
+        this.attachShadow({mode: 'open'})
+        this.compact = false;
+        this.hide = ['level', 'nextlevel', 'maxhealth', 'maxenergy', 'experience', 'energy', 'health'];
+    }
+
     set selected(value) {
         this.playerClass = value;
         if (value.id) {
@@ -19,13 +26,7 @@ class StatsView extends HTMLElement {
 
     connectedCallback() {
         this.compact = this.getAttribute('compact');
-        this.attachShadow({mode: 'open'})
-    }
-
-    constructor() {
-        super();
-        this.compact = false;
-        this.hide = ['level', 'nextlevel', 'maxhealth', 'maxenergy', 'experience', 'energy', 'health'];
+        this.render();
     }
 
     _layout() {

@@ -142,6 +142,10 @@ class PatchDownload extends HTMLElement {
             .total-progress {
                 padding-top: 128px;
             }
+            
+            bunny-progress {
+                padding: 16px;
+            }
 
             .patch-name {
                 position: absolute;

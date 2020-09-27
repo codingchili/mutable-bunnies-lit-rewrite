@@ -87,12 +87,13 @@ window.TextEffects = class TextEffects {
 
     _create(target, text, options) {
         let style = this.style(options);
+        //style.fontSize = 24;
         let counter = new PIXI.Text(text, style);
         counter.dir = (6.14 / 360) * Math.random() * 360;
 
         if (options.critical) {
             style.fontSize = 24;
-            style.fontStyle = 'bold';
+            style.fontStyle = 'italic';
             counter.ttl = options.ttl || 2.2;
         } else {
             counter.ttl = options.ttl || 1.2;

@@ -74,11 +74,7 @@ window.Spells = class Spells {
         }
         game.publish('character-update', target);
 
-        if (event.value < 20) {
-            event.value = event.value.toFixed(1);
-        } else {
-            event.value = event.value.toFixed(0);
-        }
+        event.value = event.value.toFixed(0);
 
         // hide heal events that represent < 2% of max health.
         let hidden = (event.type === 'heal' && event.value < 0.02 * target.stats.maxhealth);

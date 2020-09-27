@@ -35,8 +35,11 @@ window.TextEffects = class TextEffects {
                 this.counters.splice(i, 1);
             } else {
                 counter.speed *= counter.slowdown;
-                counter.x += counter.speed * Math.cos(counter.dir) * delta;
-                counter.y += counter.speed * Math.sin(counter.dir) * delta;
+                counter.dx += counter.speed * Math.cos(counter.dir) * delta;
+                counter.dy += counter.speed * Math.sin(counter.dir) * delta;
+
+                counter.x = Math.trunc(counter.dx);
+                counter.y = Math.trunc(counter.dy);
 
                 if (counter.ttl > 0) {
                     counter.alpha += counter.fade_in * delta;
@@ -60,14 +63,18 @@ window.TextEffects = class TextEffects {
         options = options || this.options();
 
         return new PIXI.TextStyle({
-            fontFamily: 'Verdana',
-            fontSize: options.size || 12,
-            //fontWeight: 'bold',
-            fill: [options.begin, options.end],
-            stroke: '#000000',
-            strokeThickness: 4,
-            wordWrap: true,
-            wordWrapWidth: 440
+            fontFamily: 'Courier',
+            fontSize: options.size || 14,
+            fontStyle: options.fontStyle || 'italic',
+            fontWeight: options.fontWeight || 'bold',
+            fill: [options.begin, options.end], // gradient
+            stroke: '#161616',
+            strokeThickness: 2,
+            dropShadow: true,
+            dropShadowColor: '#000000',
+            dropShadowBlur: 6,
+            dropShadowAngle: Math.PI / 6,
+            dropShadowDistance: 4,
         });
     }
 
@@ -84,15 +91,22 @@ window.TextEffects = class TextEffects {
         counter.dir = (6.14 / 360) * Math.random() * 360;
 
         if (options.critical) {
-            style.fontSize = 16;
+            style.fontSize = 20;
             counter.ttl = options.ttl || 2.2;
         } else {
             counter.ttl = options.ttl || 1.2;
         }
 
-        counter.x = target.x - (counter.width / 2) + (target.width / 3) * Math.cos(counter.dir);
-        counter.y = target.y - (target.height / 2) + (target.height / 4) * Math.sin(counter.dir);
-        counter.alpha = 0.18;
+        if (options.float) {
+            counter.dir = (6.14 / 360) * 270;
+            counter.dx = target.x - (counter.width / 2);
+            counter.dy = (target.y * 1.01) - target.height;
+        } else {
+            counter.dx = target.x - (counter.width / 2) + (target.width / 3) * Math.cos(counter.dir);
+            counter.dy = target.y - (target.height / 2) + (target.height / 4) * Math.sin(counter.dir);
+        }
+
+        counter.alpha = 1.0;//0.18;
         counter.speed = 192;
         counter.slowdown = 0.825;
         counter.fade_in = 25;
@@ -101,11 +115,8 @@ window.TextEffects = class TextEffects {
         // newer texts always on top!
         counter.layer = performance.now();
 
-        if (options.float) {
-            counter.dir = (6.14 / 360) * 270;
-            counter.x = target.x - (counter.width / 2);
-            counter.y = (target.y * 1.01) - target.height;
-        }
+        counter.x = Math.trunc(counter.dx);
+        counter.y = Math.trunc(counter.dy);
 
         this.counters.push(counter);
         game.stage.addChild(counter);
@@ -114,8 +125,8 @@ window.TextEffects = class TextEffects {
 
     physical(target, event) {
         game.texts._create(target, event.value, {
-            begin: '#ff1800',
-            end: '#ff0f00',
+            begin: '#cc0000',
+            end: '#880000',
             critical: event.critical
         });
     }
@@ -169,7 +180,9 @@ window.TextEffects = class TextEffects {
             end: event.color2 || '#ffffff',
             float: true,
             // longer chat messages has longer lifetime.
-            ttl: 1.325 + event.text.length * 0.065
+            ttl: 1.325 + event.text.length * 0.065,
+            fontStyle: 'normal',
+            fontWeight: 'normal'
         });
     }
 
@@ -179,7 +192,8 @@ window.TextEffects = class TextEffects {
             float: true,
             ttl: 4.0,
             begin: '#ffc200',
-            end: '#ffc200'
+            end: '#ffc200',
+            fontStyle: 'normal'
         });
     }
 };

@@ -64,8 +64,8 @@ window.TextEffects = class TextEffects {
 
         return new PIXI.TextStyle({
             fontFamily: 'Courier',
-            fontSize: options.size || 14,
-            fontStyle: options.fontStyle || 'italic',
+            fontSize: options.size || 18,
+            fontStyle: options.fontStyle || 'normal',
             fontWeight: options.fontWeight || 'bold',
             fill: [options.begin, options.end], // gradient
             stroke: '#161616',
@@ -91,7 +91,8 @@ window.TextEffects = class TextEffects {
         counter.dir = (6.14 / 360) * Math.random() * 360;
 
         if (options.critical) {
-            style.fontSize = 20;
+            style.fontSize = 24;
+            style.fontStyle = 'bold';
             counter.ttl = options.ttl || 2.2;
         } else {
             counter.ttl = options.ttl || 1.2;
@@ -126,7 +127,7 @@ window.TextEffects = class TextEffects {
     physical(target, event) {
         game.texts._create(target, event.value, {
             begin: '#cc0000',
-            end: '#880000',
+            end: '#480000',
             critical: event.critical
         });
     }
@@ -134,7 +135,7 @@ window.TextEffects = class TextEffects {
     heal(target, event) {
         game.texts._create(target, '+' + event.value, {
             begin: '#06ff00',
-            end: '#13ff01',
+            end: '#106301',
             float: true,
             critical: event.critical
         });
@@ -143,7 +144,7 @@ window.TextEffects = class TextEffects {
     magic(target, event) {
         game.texts._create(target, event.value, {
             begin: '#ff03f5',
-            end: '#ff00cf',
+            end: '#690054',
             critical: event.critical
         });
     }
@@ -151,7 +152,7 @@ window.TextEffects = class TextEffects {
     experience(target, event) {
         game.texts._create(target, '+' + event.value, {
             begin: '#ffc200',
-            end: '#ffc200',
+            end: '#b58400',
             float: true,
             ttl: 2.6,
             critical: true
@@ -161,7 +162,7 @@ window.TextEffects = class TextEffects {
     trueDamage(target, event) {
         game.texts._create(target, event.value, {
             begin: '#ffeaf9',
-            end: '#ff0702',
+            end: '#4eaad5',
             critical: event.critical
         });
     }
@@ -182,7 +183,8 @@ window.TextEffects = class TextEffects {
             // longer chat messages has longer lifetime.
             ttl: 1.325 + event.text.length * 0.065,
             fontStyle: 'normal',
-            fontWeight: 'normal'
+            fontWeight: 'normal',
+            size: 16
         });
     }
 

@@ -2,10 +2,11 @@ window.Canvas = class {
 
     constructor() {
         PIXI.settings.TARGET_FPMS = 0.12;
-        //PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
         PIXI.settings.RESOLUTION = window.devicePixelRatio;
-        //PIXI.settings.ANISOTROPIC_LEVEL = 16;
-        //aPIXI.settings.ROUND_PIXELS = true;
+
+        //PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
+        PIXI.settings.ANISOTROPIC_LEVEL = 16;
+        //PIXI.settings.ROUND_PIXELS = true;
 
         this.app = new PIXI.Application({
             antialias: false,

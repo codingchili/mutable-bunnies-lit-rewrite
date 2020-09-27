@@ -3,6 +3,7 @@ import {BunnyStyles} from "../component/styles.js";
 import '/component/bunny-button.js'
 import '/component/bunny-box.js'
 import '/component/bunny-spinner.js'
+import '/component/bunny-icon.js'
 
 class ErrorDialog extends HTMLElement {
 
@@ -26,6 +27,7 @@ class ErrorDialog extends HTMLElement {
         return html`
         <style>
             ${BunnyStyles.variables}
+            ${BunnyStyles.icons}
         
             :host {
                 display: ${this.opened ? 'inline-block' : 'none'};
@@ -69,13 +71,21 @@ class ErrorDialog extends HTMLElement {
             }
 
             .error-text {
-                margin: 32px 32px 16px;
+                margin: 32px 32px 32px;
                 display: block;
                 text-align:center;
             }
             
             bunny-spinner {
                 margin-bottom: -32px;
+            }
+            
+            .icon {
+                width: 64px;
+                height: 64px;
+                display: block;
+                margin: auto;
+                margin-top: 64px;
             }
 
             .tooltip {
@@ -86,10 +96,12 @@ class ErrorDialog extends HTMLElement {
         </style>
 
 
-        <bunny-box id="dialog" class="box">
+        <bunny-box id="dialog" class="box" solid>
             <bunny-spinner text="retrying.. " ?enabled="${this.loading}"></bunny-spinner>
-
-            <div class="error-text scrollable" style="display: ${this.text ? 'block' : 'none'};">
+            
+            ${this.loading ? '' : html`<bunny-icon class="icon" icon="error"></bunny-icon>`}
+    
+                <div class="error-text scrollable" style="display: ${this.text ? 'block' : 'none'};">
                 ${this.text}
             </div>
 

@@ -54,25 +54,23 @@ class AppView extends HTMLElement {
                     </div>
                     <div id="banner" slot="text"></div>
                     <div ?hidden="${!this.authenticated}" slot="right" class="icon" @mousedown="${this._logout.bind(this)}">
-                        <bunny-icon icon="close">
+                        <bunny-icon icon="close"></bunny-icon>
                     </div>
                 </bunny-bar>
             `}
 
-            <div id="container">
-                <bunny-pages>
-                    <div slot="tabs"></div>
-                    <div slot="pages">
-                        <page-start class="layout horizontal center-justified"></page-start>
-                        <page-login class="layout horizontal center-justified"></page-login>
-                        <game-realms class="layout horizontal center-justified"></game-realms>
-                        <game-characters class="layout horizontal center-justified"></game-characters>
-                        <patch-download class="layout horizontal center-justified"></patch-download>
-                        <game-view></game-view>
-                        <offline-view class="layout horizontal center-justified"></offline-view>
-                    </div>
-                <bunny-pages>
-            </div>
+            <bunny-pages>
+                <div slot="tabs"></div>
+                <div slot="pages">
+                    <page-start class="layout horizontal center-justified"></page-start>
+                    <page-login class="layout horizontal center-justified"></page-login>
+                    <game-realms class="layout horizontal center-justified"></game-realms>
+                    <game-characters class="layout horizontal center-justified"></game-characters>
+                    <patch-download class="layout horizontal center-justified"></patch-download>
+                    <game-view></game-view>
+                    <offline-view class="layout horizontal center-justified"></offline-view>
+                </div>
+            </bunny-pages>
 
             <div id="error-dialog">
                 <error-dialog></error-dialog>
@@ -86,8 +84,12 @@ class AppView extends HTMLElement {
         let start = (window.isPWA || application.development.skipStart) ? 'page-login' : 'page-start';
 
         application.onError((e) => {
+            console.log('trigger error');
             import('./error-dialog.js').then(() => {
+                console.log('imported');
+
                 customElements.whenDefined('error-dialog').then(() => {
+                    console.log('render dialog');
                     this.render();
                     this.shadowRoot.querySelector('error-dialog').open(e);
                 });
@@ -115,10 +117,9 @@ class AppView extends HTMLElement {
         });
 
         this.banner();
-
         this.attachShadow({mode: 'open'});
-
         this.render();
+
         customElements.whenDefined('bunny-pages').then(() => {
             if (!application.offline) {
                 application.publish('view', start)

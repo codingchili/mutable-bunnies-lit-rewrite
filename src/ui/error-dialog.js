@@ -69,7 +69,7 @@ class ErrorDialog extends HTMLElement {
             }
 
             .error-text {
-                padding: 32px 32px 16px;
+                margin: 32px 32px 16px;
                 display: block;
                 text-align:center;
             }

@@ -245,7 +245,7 @@ class PlayerStatus extends HTMLElement {
                 :host {
                     top: 0px;
                     left: 0px;
-                    right: 0px;
+                    right: 2px;
                     width: unset;
                 }
 

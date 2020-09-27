@@ -1,7 +1,8 @@
 /**
  * handles network communication for websockets.
  */
-const PING_INTERVAL = 12000;
+const PING_INTERVAL = 8000;
+const PING_CHECK = 1000;
 
 class Connection {
 
@@ -36,12 +37,16 @@ class Connection {
 
             this.ping = setInterval(() => {
                 if (this.open && this.ws.readyState === this.ws.OPEN) {
-                    this.send('ping', {}, () => {
-                    });
+
+                    // send a ping if no message received in the last PING_INTERVAL.
+                    if (this.last < performance.now() - PING_INTERVAL) {
+                        this.send('ping');
+                    }
+
                 } else {
                     clearInterval(this.ping);
                 }
-            }, PING_INTERVAL);
+            }, PING_CHECK);
         };
         this.ws.onerror = (evt) => {
             this.onerror(evt);
@@ -49,6 +54,8 @@ class Connection {
     }
 
     onmessage(data) {
+        this.last = performance.now();
+
         data = JSON.parse(data);
         let route = data.route;
 

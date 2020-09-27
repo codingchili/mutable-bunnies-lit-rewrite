@@ -153,11 +153,9 @@ window.Spells = class Spells {
 
         if (event.cycle === CYCLE_INTERRUPTED || event.cycle === CYCLE_CANCELLED || event.cycle === CYCLE_CASTED) {
             let entity = game.lookup(event.source);
-
-            if (entity.velocity === 0) {
-                entity.state.setAnimation(0, 'idle', true);
-                entity.state.timeScale = entity.state.oldTimeScale;
-            }
+            setTimeout(() => {
+                entity.state.clearTrack(1);
+            }, 500);
         }
 
         if (event.cycle === CYCLE_CASTING) {

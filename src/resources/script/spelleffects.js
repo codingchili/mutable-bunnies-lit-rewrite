@@ -93,7 +93,7 @@ window.SpellEffects = class SpellEffects {
      */
     casting(event) {
         let entity = game.lookup(event.source);
-        entity.state.setAnimation(0, 'attacks/bow-draw', false);
+        entity.state.setAnimation(1, 'attacks/bow-draw', false);
         entity.state.oldTimeScale = entity.state.timeScale;
         //entity.state.timeScale = 0.6;
     }
@@ -125,7 +125,7 @@ window.SpellEffects = class SpellEffects {
                     sprite.direction = (Math.atan2(sprite.y - (target.y - target.height / 2), target.x - sprite.x)) + 3.14 / 2;
                     sprite.x += Math.sin(sprite.direction) * sprite.velocity * delta;
                     sprite.y += Math.cos(sprite.direction) * sprite.velocity * delta;
-                    sprite.rotation += 18 * delta;
+                    sprite.rotation -= 24 * delta;
                     return (Math.hypot(Math.abs(sprite.x - target.x), Math.abs(sprite.y - (target.y - (target.height / 2)))) > 16);
                 };
 

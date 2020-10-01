@@ -35,7 +35,7 @@ class GameView extends HTMLElement {
             // only play sound when online, to prevent interruptions on reconnects and
             // give the user feedback on when it's connected again.
             if (!offline) {
-                this.bgsound = new Audio('/sound/background.mp3');
+                this.bgsound = new Audio('/sound/mutable_bg_clean.mp3');
                 this.bgsound.loop = true;
                 this.bgsound.volume = 0.5;
 

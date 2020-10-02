@@ -184,12 +184,16 @@ window.MovementHandler = class MovementHandler {
         }
 
         if (entity.state && entity.state.initialized) {
-            if (entity.state.tracks.length === 0 || animation !== entity.state.tracks[0].animation.name) {
-                try {
+            try {
+                let track = entity.state.getCurrent(0) || {animation: {}};
+
+                if (track.animation.name === animation) {
+                    // new animation is same as last, avoid interrupting.
+                } else {
                     entity.state.setAnimation(0, animation, true);
-                } catch (e) {
-                    // no such animation.
                 }
+            } catch (e) {
+                // no such animation.
             }
         }
     }

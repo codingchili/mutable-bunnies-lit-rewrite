@@ -48,9 +48,8 @@ class Connection {
                 }
             }, PING_CHECK);
         };
-        this.ws.onerror = (evt) => {
-            this.onerror(evt);
-        };
+        this.ws.onerror = this.onerror.bind(this);
+        this.ws.onclose = this.onclose.bind(this);
     }
 
     onmessage(data) {

@@ -8,10 +8,7 @@ window.Skybox = class {
     }
 
     init(skybox) {
-        console.log('skybox init');
-        console.log(skybox);
         Loader.load(background => {
-            console.log('skybox loaded');
             this.background = background;
             this.width = window.innerWidth;
 
@@ -25,7 +22,6 @@ window.Skybox = class {
 
         for (let cloud = 1; cloud <= 3; cloud++) {
             Loader.load(loaded => {
-                console.log('loading cloud');
                 for (let i = 0; i < 2; i++) {
                     let cloud = new PIXI.Sprite(loaded.texture);
                     this._reset(cloud);

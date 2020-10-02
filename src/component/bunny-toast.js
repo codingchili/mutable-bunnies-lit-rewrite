@@ -35,7 +35,13 @@ class BunnyToast extends HTMLElement {
     close(bar) {
         bar = bar || this.bar;
         bar.style.height = '0';
-        setTimeout(() => this._remove(bar), 1000);
+        setTimeout(() => {
+            try {
+                this._remove(bar)
+            } catch {
+                // already removed - ignore.
+            }
+        }, 1000);
     }
 
     _remove(bar) {

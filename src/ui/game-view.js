@@ -3,6 +3,7 @@ import {html, render} from '/node_modules/lit-html/lit-html.js';
 import './game/notification-toaster.js'
 import './game/player-status.js'
 import './game/spell-bar.js'
+import './game/chat-box.js'
 
 class GameView extends HTMLElement {
 

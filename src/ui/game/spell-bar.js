@@ -337,7 +337,7 @@ class SpellBar extends HTMLElement {
             }
         </style>
 
-        <bunny-box class="spell-bar noselect">
+        <bunny-box class="spell-bar noselect" border>
             <div class="spell-list">
                 ${repeat(this._list(), spell => spell.id, this.spellHtml.bind(this))}
             </div>

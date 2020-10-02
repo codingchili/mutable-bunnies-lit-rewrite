@@ -8,8 +8,13 @@ class BunnyInput extends HTMLElement {
 
         this.placeholder = this.getAttribute('placeholder') || '';
         this.text = this.getAttribute('text') || '';
-        this.label = this.getAttribute('label') || 'Label';
+        this.label = this.getAttribute('label') || '';
         this.type = this.getAttribute('type') || 'text';
+
+        /*new MutationObserver(events => {
+            this.value = this.getAttribute('text');
+            this.render()
+        }).observe(this, {attributes: true});*/
 
         if (this.hasAttribute('autofocus')) {
             this.focus();
@@ -22,6 +27,7 @@ class BunnyInput extends HTMLElement {
 
     set value(value) {
         this.input.value = value;
+        this.render();
     }
 
     get value() {
@@ -38,7 +44,7 @@ class BunnyInput extends HTMLElement {
 
     connectedCallback() {
         this.attachShadow({mode: 'open'});
-        render(this.template, this.shadowRoot);
+        this.render();
 
         this.input = this.query('#input');
 
@@ -144,7 +150,7 @@ class BunnyInput extends HTMLElement {
             
           <div id="container">
             <label id="label" class="label noselect">${this.label}</label>
-            <input spellcheck="false" auto type="${this.type}" id="input" class="bunny-input noselect" value="${this.text}" placeholder="${this.placeholder}"/>
+            <input spellcheck="false" maxlength="96" auto type="${this.type}" id="input" class="bunny-input noselect" value="${this.text}" placeholder="${this.placeholder}"/>
             <div class="underline">
                 <div id="underline-default"></div>
                 <div id="underline"></div>
@@ -152,5 +158,10 @@ class BunnyInput extends HTMLElement {
           </div>
         `;
     }
+
+    render() {
+        render(this.template, this.shadowRoot);
+    }
 }
+
 customElements.define(BunnyInput.is, BunnyInput);

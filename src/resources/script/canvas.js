@@ -5,8 +5,8 @@ window.Canvas = class {
         PIXI.settings.RESOLUTION = window.devicePixelRatio;
 
         //PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
-        PIXI.settings.ANISOTROPIC_LEVEL = 16;
-        //PIXI.settings.ROUND_PIXELS = true;
+        //PIXI.settings.ANISOTROPIC_LEVEL = 16;
+        PIXI.settings.ROUND_PIXELS = true;
 
         this.app = new PIXI.Application({
             antialias: false,

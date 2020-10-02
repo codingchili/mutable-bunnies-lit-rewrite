@@ -39,6 +39,10 @@ class AppView extends HTMLElement {
                 #toolbar {
                     z-index: 100;
                 }
+                
+                error-dialog {
+                    z-index: 800;
+                }
 
                 #footer {
                     z-index: 100;
@@ -84,12 +88,8 @@ class AppView extends HTMLElement {
         let start = (window.isPWA || application.development.skipStart) ? 'page-login' : 'page-start';
 
         application.onError((e) => {
-            console.log('trigger error');
             import('./error-dialog.js').then(() => {
-                console.log('imported');
-
                 customElements.whenDefined('error-dialog').then(() => {
-                    console.log('render dialog');
                     this.render();
                     this.shadowRoot.querySelector('error-dialog').open(e);
                 });

@@ -38,7 +38,7 @@ class BunnyToast extends HTMLElement {
         setTimeout(() => {
             try {
                 this._remove(bar)
-            } catch {
+            } catch (e) {
                 // already removed - ignore.
             }
         }, 1000);

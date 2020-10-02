@@ -129,6 +129,9 @@ class ErrorDialog extends HTMLElement {
             this.opened = true;
             this.classList.add('visible');
             this.render();
+        } else {
+            this.opened = false;
+            this.render();
         }
     }
 

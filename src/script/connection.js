@@ -7,6 +7,7 @@ const PING_CHECK = 1000;
 class Connection {
 
     constructor(realm) {
+        this.realm = realm;
         this.clientClosed = false;
         this.binaryWebsocket = true;
         this.port = realm.port;
@@ -14,42 +15,60 @@ class Connection {
         this.binaryWebsocket = realm.binaryWebsocket;
         this.handlers = {};
         this.onConnectHandlers = [];
-
         this.protocol = (realm.secure) ? "wss://" : "ws://";
 
-        this.ws = new WebSocket(this.protocol + this.host + ":" + this.port + "/");
-        this.ws.binaryType = 'arraybuffer';
+        this.connect();
+    }
 
-        this.decoder = new TextDecoder("UTF-8");
-        this.ws.onmessage = (event) => {
-            let data = (this.binaryWebsocket) ?
-                this.decoder.decode(event.data) :
-                event.data;
-
-            this.onmessage(data);
-        };
-        this.ws.onopen = () => {
-            this.open = true;
-            for (let i = 0; i < this.onConnectHandlers.length; i++) {
-                this.onConnectHandlers[i]();
+    connect() {
+        return new Promise(((resolve, reject) => {
+            try {
+                this.ws = new WebSocket(this.protocol + this.host + ":" + this.port + "/");
+                this.ws.binaryType = 'arraybuffer';
+            } catch (e) {
+                reject();
+                return;
             }
-            this.onConnectHandlers = [];
 
-            this.ping = setInterval(() => {
-                if (this.open && this.ws.readyState === this.ws.OPEN) {
+            this.decoder = new TextDecoder("UTF-8");
+            this.ws.onmessage = (event) => {
+                let data = (this.binaryWebsocket) ?
+                    this.decoder.decode(event.data) :
+                    event.data;
 
-                    // send a ping if no message received in the last PING_INTERVAL.
-                    if (this.last < performance.now() - PING_INTERVAL) {
-                        this.send('ping');
-                    }
-
-                } else {
-                    clearInterval(this.ping);
+                this.onmessage(data);
+            };
+            this.ws.onopen = () => {
+                application.error(null); // clear error.
+                this.open = true;
+                for (let i = 0; i < this.onConnectHandlers.length; i++) {
+                    this.onConnectHandlers[i]();
                 }
-            }, PING_CHECK);
-        };
-        this.ws.onerror = this.onerror.bind(this);
-        this.ws.onclose = this.onclose.bind(this);
+                this.onConnectHandlers = [];
+
+                this.ping = setInterval(() => {
+                    if (this.open && this.ws.readyState === this.ws.OPEN) {
+
+                        // send a ping if no message received in the last PING_INTERVAL.
+                        if (this.last < performance.now() - PING_INTERVAL) {
+                            this.send('ping');
+                        }
+
+                    } else {
+                        clearInterval(this.ping);
+                    }
+                }, PING_CHECK);
+
+                resolve();
+            };
+            this.ws.onerror = (e) => {
+                reject();
+                this.onerror(e);
+            };
+            this.ws.onclose = (e) => {
+                this.onclose(e);
+            };
+        }));
     }
 
     onmessage(data) {
@@ -111,15 +130,19 @@ class Connection {
 
     onerror(event) {
         this.open = false;
-        application.error('Server error: connection closed.');
+        this.close();
+        this.disconnected(`Connection error to ${this.realm.name}.`);
     }
 
     onclose(event) {
         this.open = false;
-        if (!event.wasClean) {
-            application.error(`The connection to the ${this.realm.name} ' +
-                'server was lost, please retry.`);
+        if (!this.clientClosed) {
+            this.disconnected(`Connection to server ${this.realm.name} lost.`);
         }
+    }
+
+    disconnected(message) {
+        application.error(message);
     }
 }
 

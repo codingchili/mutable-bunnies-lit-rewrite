@@ -8,7 +8,10 @@ window.Skybox = class {
     }
 
     init(skybox) {
+        console.log('skybox init');
+        console.log(skybox);
         Loader.load(background => {
+            console.log('skybox loaded');
             this.background = background;
             this.width = window.innerWidth;
 
@@ -18,22 +21,25 @@ window.Skybox = class {
             background.tint = parseInt(skybox.sky.replace('#', '0x'));
 
             game.root.addChildAt(background, 0);
-            for (let cloud = 1; cloud <= 3; cloud++) {
-                Loader.load(loaded => {
-                    for (let i = 0; i < 2; i++) {
-                        let cloud = new PIXI.Sprite(loaded.texture);
-                        this._reset(cloud);
-
-                        cloud.x = Math.random() * this.width;
-                        cloud.tint = parseInt(skybox.clouds.replace('#', '0x'));
-                        cloud.velocity = Math.random() * 42 + 16;
-
-                        this.clouds.push(cloud);
-                        game.root.addChildAt(cloud, 1);
-                    }
-                }, `game/map/clouds/${cloud}.png`);
-            }
         }, 'game/map/clouds/skybox_grey.png');
+
+        for (let cloud = 1; cloud <= 3; cloud++) {
+            Loader.load(loaded => {
+                console.log('loading cloud');
+                for (let i = 0; i < 2; i++) {
+                    let cloud = new PIXI.Sprite(loaded.texture);
+                    this._reset(cloud);
+
+                    cloud.x = Math.random() * this.width;
+                    cloud.tint = parseInt(skybox.clouds.replace('#', '0x'));
+                    cloud.velocity = Math.random() * 42 + 16;
+
+                    this.clouds.push(cloud);
+                    game.root.addChildAt(cloud, 1);
+                }
+            }, `game/map/clouds/${cloud}.png`);
+        }
+        Loader.begin();
     }
 
     _reset(cloud) {

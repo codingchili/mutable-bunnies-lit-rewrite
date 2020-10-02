@@ -12,9 +12,10 @@ class Application {
             autologin: true,
             selectFirstRealm: true,
             selectFirstCharacter: true,
+            fastReconnect: true,
             clearCache: true,
             rightClick: true,
-            logEvents: true,
+            logEvents: false,
             hardResetXY: true,
             metrics: true
         };

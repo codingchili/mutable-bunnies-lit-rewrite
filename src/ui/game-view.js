@@ -31,34 +31,27 @@ class GameView extends HTMLElement {
             })
         });
 
-        application.subscribe('offline', offline => {
-            // only play sound when online, to prevent interruptions on reconnects and
-            // give the user feedback on when it's connected again.
-            if (!offline) {
-                this.bgsound = new Audio('/sound/mutable_bg_clean.mp3');
-                this.bgsound.loop = true;
-                this.bgsound.volume = 0.5;
+        application.onAuthentication(() => {
+            this.ambient = new Audio('/sound/mutable_theme.mp3');
+            this.ambient.loop = true;
+            this.ambient.volume = 0.5;
 
-                this.bgsound.addEventListener('loadeddata', () => {
-                    this.bgsound.play();
-                });
-            }
+            this.ambient.addEventListener('loadeddata', () => {
+                this.ambient.play();
+            });
         });
 
         application.onScriptShutdown(() => {
-            // play in pregame ui.
-            if (this.bgsound) {
-                this.bgsound.volume = 0.5;
-                //this.bgsound.currentTime = 0;
-                this.bgsound.play();
+            if (this.ambient) {
+                this.ambient.volume = 0.5;
+                this.ambient.currentTime = 0;
+                this.ambient.play();
             }
         });
 
         application.onScriptsLoaded(() => {
-            // pause in game.
-            if (this.bgsound) {
-                this.bgsound.volume = 0.15;
-                //this.bgsound.pause();
+            if (this.ambient) {
+                this.ambient.pause();
             }
         });
 

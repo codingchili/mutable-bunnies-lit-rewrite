@@ -1,4 +1,6 @@
 import {html, render} from '/node_modules/lit-html/lit-html.js';
+import {repeat} from 'lit-html/directives/repeat.js';
+
 import '../../component/bunny-tooltip.js'
 import '../../component/bunny-progress.js'
 import '../../component/bunny-box.js'
@@ -37,18 +39,10 @@ class PlayerStatus extends HTMLElement {
             stats: {}
         };
 
-        setInterval(() => {
-            // re-render afflictions, should use $each directive.
-            this.render();
-        }, 1000);
+        setInterval(this.render.bind(this), 1000);
 
-        application.onGameLoaded(() => {
-            this._listen();
-        });
-
-        application.onRealmLoaded(realm => {
-            this.realm = realm;
-        });
+        application.onGameLoaded(this._listen.bind(this));
+        application.onRealmLoaded(realm => this.realm = realm);
 
         if (this.compact) {
             this.query('#health-bar').classList.add('health-bar-mini');
@@ -259,17 +253,21 @@ class PlayerStatus extends HTMLElement {
             }
 
             #afflictions {
-                margin-left: 62px;
+                margin-left: 72px;
                 display: flex;
                 flex-wrap: wrap;
                 z-index: 850;
                 flex-direction: row;
                 width: 296px;
+                position: relative;
             }
 
             .affliction-icon {
                 max-width: 24px;
                 max-height: 24px;
+                margin: auto;
+                display: block;
+                margin-top: 4px;
             }
 
             @keyframes fadein {
@@ -282,10 +280,10 @@ class PlayerStatus extends HTMLElement {
             }
 
             .affliction {
-                width: 24px;
+                width: 32px;
                 min-width: 24px;
                 padding: 4px;
-                height: 24px;
+                height: 32px;
                 margin: 4px;
                 animation: fadein 0.72s ease 1;
             }
@@ -300,13 +298,13 @@ class PlayerStatus extends HTMLElement {
             }
 
             .title {
-                font-size: 2.0em;
+                font-size: larger;
             }
 
             .description {
                 margin-top: 12px;
                 display: block;
-                font-size: larger;
+                font-size: small;
             }
 
             .class-stats {
@@ -342,10 +340,14 @@ class PlayerStatus extends HTMLElement {
                 width: 192px;
             }
 
+            .noselect {
+                user-select: none;
+            }
+
         </style>
 
 
-        <bunny-box border elevation="3" id="frame" class="interface-box noselect frame">
+        <bunny-box border elevation="3" id="frame" class="noselect frame">
 
             <slot></slot>
 
@@ -391,22 +393,19 @@ class PlayerStatus extends HTMLElement {
         </bunny-box>
 
         <div id="afflictions">
-            ${this.afflictionsHtml()}
+            ${repeat(this.afflictions, affliction => affliction.id, this.afflictionHtml.bind(this))}
         </div>
 
         `;
     }
 
-    afflictionsHtml() {
-        let items = [];
-
-        for (let active of this.afflictions) {
-            let item = html`
-                <div class="affliction interface-box">
-                    <img src="${this.realm.resources}/gui/afflictions/${active.affliction.id}.svg" class="affliction-icon"
-                         alt="affliction">
-
-                    <bunny-tooltip class="spell-info" animation-delay="0" position="bottom">
+    afflictionHtml(active) {
+        return html`
+            <bunny-box border class="affliction">
+                <img src="${this.realm.resources}/gui/afflictions/${active.affliction.id}.svg" class="affliction-icon" alt="affliction">
+            </bunny-box>
+            <bunny-tooltip class="spell-info" position="bottom">
+                    <div>
                         <span class="title">${active.affliction.name}</span>
 
                         <table class="info-table">
@@ -419,13 +418,9 @@ class PlayerStatus extends HTMLElement {
                         </table>
 
                         <span class="description">${this._description(active.affliction)}</span>
-                    </bunny-tooltip>
-                </div>
-            `;
-            items.push(item)
-        }
-
-        return items;
+                    </div>
+                </bunny-tooltip>
+        `;
     }
 
     render() {

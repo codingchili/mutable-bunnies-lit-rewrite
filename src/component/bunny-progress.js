@@ -42,7 +42,7 @@ class BunnyProgress extends HTMLElement {
             <style>
                 :host {
                     display: block;
-                    height: 4px;
+                    height: var(--bunny-progress-height, 4px);
                 }
                 
                 .elevation {
@@ -62,7 +62,7 @@ class BunnyProgress extends HTMLElement {
                 .fill {
                     width: ${this.percent()}%;
                     background-color: var(--bunny-progress-active-color, aqua);
-                    transition: width 0.16s ease-out;
+                    transition: width var(--bunny-progress-transition-duration, 0.16s) var(--bunny-progress-transition-timing-function, ease-out);
                 }
                 
                 .bar {
@@ -70,7 +70,7 @@ class BunnyProgress extends HTMLElement {
                     top: 0;
                     left: 0;
                     bottom: 0;
-                    height: 4px;
+                    height: var(--bunny-progress-height, 4px);
                 }
             </style>
             <div class="elevation container">

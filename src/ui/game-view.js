@@ -1,5 +1,6 @@
 import {html, render} from '/node_modules/lit-html/lit-html.js';
 import './game/player-status.js'
+import './game/spell-bar.js'
 
 class GameView extends HTMLElement {
 

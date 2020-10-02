@@ -369,6 +369,13 @@ class GameRealms extends HTMLElement {
                 width: 100%;
                 margin-top: 8px;
             }
+            
+            .realm-info {
+                position: relative;
+                display: block;
+                margin-top: 14px;
+                margin-right: 2px;
+            }
 
             .realm-items {
                 cursor: pointer;
@@ -380,6 +387,11 @@ class GameRealms extends HTMLElement {
 
             .realm-item {
                 padding: 12px;
+            }
+            
+            .icons {
+                position: relative;
+                display: flex;
             }
 
             .tooltip-area {
@@ -479,7 +491,7 @@ class GameRealms extends HTMLElement {
             <td class="realm-item">
                 <span class="${realm.pingColor}">${realm.ping}</span>
             </td>
-            <td>
+            <td class="realm-info">
                 <bunny-icon class="info" icon="info" id="info"></bunny-icon>
                 <bunny-tooltip for="info">
                     <span class="description">${realm.attributes.description}</span>

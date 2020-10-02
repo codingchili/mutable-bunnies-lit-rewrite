@@ -129,7 +129,7 @@ class PlayerStatus extends HTMLElement {
                 left: 16px;
                 top: 16px;
                 width: 408px;
-                z-index: 800;
+                z-index: 700;
             }
 
             .frame {

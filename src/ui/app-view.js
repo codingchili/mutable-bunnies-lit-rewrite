@@ -9,7 +9,7 @@ import './game-realms.js'
 import './game-characters.js'
 import './patch-download.js'
 import './offline-view.js'
-import './game-view.js'
+/*import './game-view.js'*/
 
 class AppView extends HTMLElement {
 
@@ -158,7 +158,6 @@ class AppView extends HTMLElement {
 
         view = this.shadowRoot.querySelector(view);
         pages.update(view.getAttribute('index'));
-
         this.render();
     }
 }

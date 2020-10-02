@@ -12,6 +12,7 @@ window.SpawnHandler = class SpawnHandler {
 
         server.connection.setHandler('spawn', event => {
             this._spawn(event.entity, event.spawn);
+            Loader.begin();
         });
     }
 
@@ -19,14 +20,17 @@ window.SpawnHandler = class SpawnHandler {
      * Join event received when entering a new instance.
      *
      * @param event
+     * @param done
      */
-    join(event) {
+    join(event, done) {
         game.entities = [];
         this._init(event);
 
         // in the future we might want to split rendering of entities and creatures.
         this._spawn(event.entities, SPAWN);
         this._spawn(event.creatures, SPAWN);
+        Loader.begin(done);
+
     }
 
     _init(event) {
@@ -113,7 +117,7 @@ window.SpawnHandler = class SpawnHandler {
             }
             game.stage.addChild(sprite);
 
-        }, entity.model).begin();
+        }, entity.model);
     }
 
     _onLootableHook(entity) {

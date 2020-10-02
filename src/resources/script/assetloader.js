@@ -19,14 +19,22 @@ window.AssetLoader = class AssetLoader {
     }
 
     begin(callback) {
-        if (callback) {
-            this.callbacks.push(callback);
+        if (!callback) {
+            callback = () => {};
         }
 
-        if (!this.loading) {
-            this.completers = this.callbacks;
-            this.callbacks = [];
-            this.processQueue();
+        if (this.queue.length === 0) {
+            callback();
+        } else {
+            // items added to queue while processing will be processed
+            // as soon as the current round have completed.
+            this.callbacks.push(callback);
+
+            if (!this.loading) {
+                this.completers = this.callbacks;
+                this.callbacks = [];
+                this.processQueue();
+            }
         }
     }
 

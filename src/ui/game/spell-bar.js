@@ -34,6 +34,7 @@ class SpellBar extends HTMLElement {
 
         application.onCharacterLoaded(player => {
             this.character = player;
+            this.render();
         });
 
         application.onGameLoaded((game) => {
@@ -327,6 +328,8 @@ class SpellBar extends HTMLElement {
             }
             .spell-list {
                 display: flex;
+                /* super important property that fixes a 1px jump on hover. */
+                backface-visibility: hidden;
             }
             
             .noselect {
@@ -336,7 +339,7 @@ class SpellBar extends HTMLElement {
 
         <bunny-box class="spell-bar noselect">
             <div class="spell-list">
-                ${repeat(this._list(), spell => spell.id, this.spellHtml.bind(this, this.realm))}
+                ${repeat(this._list(), spell => spell.id, this.spellHtml.bind(this))}
             </div>
         </bunny-box>
 
@@ -348,8 +351,8 @@ class SpellBar extends HTMLElement {
         `;
     }
 
-    spellHtml(realm, spell) {
-        let description = this._description(spell, character);
+    spellHtml(spell) {
+        let description = this._description(spell);
         let available = this._available(spell.id);
         let charges = this._charges(spell);
 

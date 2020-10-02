@@ -69,23 +69,31 @@ class PatchDownload extends HTMLElement {
                 this.render();
             },
             completed: (file) => {
+                window.server = this.server;
+                window.character = this.character;
+                window.patch = this.patch;
+
                 if (file) {
                     this.patch.downloaded = file.size;
                     this.patch.transferred = this.patch.size;
                 }
 
+                this.downloading = false;
                 this.render();
 
-                application.updateComplete({
-                    server: this.server,
-                    realm: this.realm,
-                    character: this.character,
-                    patch: this.patch,
-                    status: (text) => {
-                        this.downloading = false;
-                        this.status = text;
-                        this.render();
-                    }
+                import('./game-view.js')
+                customElements.whenDefined('game-view').then(() => {
+                    application.updateComplete({
+                        server: this.server,
+                        realm: this.realm,
+                        character: this.character,
+                        patch: this.patch,
+                        status: (text) => {
+                            this.downloading = false;
+                            this.status = text;
+                            this.render();
+                        }
+                    });
                 });
             },
             progress: (bandwidth, transferred, downloaded, current) => {
@@ -145,6 +153,7 @@ class PatchDownload extends HTMLElement {
             
             bunny-progress {
                 padding: 16px;
+                --bunny-progress-transition-duration: 0.04s;
             }
 
             .patch-name {

@@ -1,4 +1,6 @@
 import {html, render} from '/node_modules/lit-html/lit-html.js';
+
+import './game/notification-toaster.js'
 import './game/player-status.js'
 import './game/spell-bar.js'
 
@@ -60,11 +62,8 @@ class GameView extends HTMLElement {
             this.loading = true;
             event.status('Initializing..');
 
-            window.server = event.server;
-            window.character = event.character;
-            window.patch = event.patch;
-
-            window.onScriptsLoaded = () => {};
+            window.onScriptsLoaded = () => {
+            };
             try {
                 let index = 0;
 
@@ -97,6 +96,7 @@ class GameView extends HTMLElement {
                         window.game.onScriptsLoaded({
                             accepted: () => {
                                 // use the patching UI for loading the game scripts.
+                                game.display();
                                 application.showGame();
                                 this.loaded();
                             },

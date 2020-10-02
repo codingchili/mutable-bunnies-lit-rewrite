@@ -35,7 +35,6 @@ window.Skybox = class {
                 }
             }, `game/map/clouds/${cloud}.png`);
         }
-        Loader.begin();
     }
 
     _reset(cloud) {

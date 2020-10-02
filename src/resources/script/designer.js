@@ -34,8 +34,6 @@ window.Designer = class Designer {
     load(id) {
         let item = this.registry.filter(item => item.id === id)[0];
 
-        console.log(item);
-
         Loader.load((resource) => {
             let sprite = Loader.toSprite(resource);
             sprite.layer = resource.model.layer;

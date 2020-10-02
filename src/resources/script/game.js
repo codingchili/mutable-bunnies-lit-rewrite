@@ -26,18 +26,15 @@ window.Game = class Game extends Canvas {
             accepted: (event) => {
                 super._reset();
 
-                this.spawner.join(event);
+                this.spawner.join(event, done.accepted);
                 this.skybox.init(event.skybox);
                 this.spells.init(event);
 
                 if (!this.loaded) {
-                    game.display();
                     this._counters();
                     application.gameLoaded(game);
                     this.loaded = true;
                 }
-
-                done.accepted();
             },
             error: (event) => {
                 done.error(event.message);

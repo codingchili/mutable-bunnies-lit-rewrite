@@ -29,7 +29,7 @@ window.Canvas = class {
             document.body.appendChild(this.renderer.view);
         }
         this.renderer.view.id = 'canvas';
-        this.renderer.view.style.display = "none";
+        this.hide();
 
         window.onresize = () => this.resize();
         this.resize();
@@ -65,6 +65,10 @@ window.Canvas = class {
 
     display() {
         this.renderer.view.style.display = "block";
+    }
+
+    hide() {
+        this.renderer.view.style.display = "none";
     }
 
     resize() {

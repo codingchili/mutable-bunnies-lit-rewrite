@@ -89,7 +89,7 @@ class OfflineView extends HTMLElement {
 
         </style>
 
-        <bunny-box class="container" id="container" elevation="3">
+        <bunny-box class="container" id="container">
             <div class="title">
                 <h4>Server offline</h4>
             </div>

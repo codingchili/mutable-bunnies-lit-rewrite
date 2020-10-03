@@ -12,7 +12,7 @@ class NewsPage extends HTMLElement {
 
         for (let item of news) {
             items.push(html`
-                <div elevation="1" class="item">
+                <div class="item">
                     <div class="title">
                         <h4>${item.title}</h4>
                     </div>

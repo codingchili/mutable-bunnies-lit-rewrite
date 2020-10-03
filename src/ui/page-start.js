@@ -66,7 +66,7 @@ class PageStart extends HTMLElement {
             </style>
 
             <div>
-                <bunny-box class="container center-box" elevation="3">
+                <bunny-box class="container center-box">
                     <bunny-pages class="page-content">
                         <div slot="tabs">
                             <bunny-tab active>Mutable Bunnies</bunny-tab>

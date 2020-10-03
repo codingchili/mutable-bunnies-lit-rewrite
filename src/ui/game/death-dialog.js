@@ -84,7 +84,7 @@ class DeathDialog extends HTMLElement {
 
         <div class="dialog-container" id="container" style="display: none;">
             <div class="dialog-overlay"></div>
-            <bunny-box elevation="3" class="noselect dialog-center" id="dialog">
+            <bunny-box class="noselect dialog-center" id="dialog">
                 <span class="dialog-header">${this._parse(this.quote.title)}</span>
                 <span class="dialog-text">${this._parse(this.quote.text)}</span>
 

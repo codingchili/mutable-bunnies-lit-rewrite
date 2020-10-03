@@ -441,7 +441,7 @@ class CharacterCreate extends HTMLElement {
 
         for (let playerClass of this.realm.classes) {
             let item = html`
-                <bunny-box elevation="3" class="character-class" @mousedown="${this.select.bind(this, playerClass)}" ?hidden="${!this._available(playerClass)}">
+                <bunny-box class="character-class" @mousedown="${this.select.bind(this, playerClass)}" ?hidden="${!this._available(playerClass)}">
                     <!-- removed as it doesn't reset properly -->
                     <!--<ink-ripple></ink-ripple>-->
 

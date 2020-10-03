@@ -347,7 +347,7 @@ class PlayerStatus extends HTMLElement {
         </style>
 
 
-        <bunny-box border elevation="3" id="frame" class="noselect frame">
+        <bunny-box border id="frame" class="noselect frame">
 
             <slot></slot>
 

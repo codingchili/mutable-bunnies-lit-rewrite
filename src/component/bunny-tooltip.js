@@ -59,7 +59,7 @@ class BunnyTooltip extends HTMLElement {
                     overflow: hidden;
                  }
             </style>
-                <bunny-box id="clone" border>
+                <bunny-box id="clone" border solid>
                     <slot style="display: block;
                         padding: 8px;
                         font-size: small;

@@ -232,7 +232,7 @@ class PatchDownload extends HTMLElement {
 
         </style>
 
-        <bunny-box class="container noselect" elevation="3">
+        <bunny-box class="container noselect">
 
             <span class="patch-name">${this.patch.name}</span>
             <span class="patch-version">${this.patch.version}</span>

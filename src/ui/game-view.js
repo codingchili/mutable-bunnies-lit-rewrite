@@ -8,6 +8,7 @@ import './game/game-menu.js'
 import './game/context-menu.js'
 import './game/game-dialog.js'
 import './game/death-dialog.js'
+import './game/player-inventory.js'
 
 
 class GameView extends HTMLElement {

@@ -365,7 +365,7 @@ class CharacterList extends HTMLElement {
         </style>
 
         <div ?hidden="${this.create}">
-            <bunny-box class="container noselect" elevation="3">
+            <bunny-box class="container noselect" >
                 <div style="position: relative;">
                     <div class="realm-title">
                         <h4 style="display: inline-block">${this.realm.name}</h4>

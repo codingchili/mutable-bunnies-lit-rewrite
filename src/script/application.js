@@ -9,9 +9,9 @@ class Application {
     constructor() {
         this.development = {
             skipStart: true,
-            autologin: true,
-            selectFirstRealm: true,
-            selectFirstCharacter: true,
+            autologin: false,
+            selectFirstRealm: false,
+            selectFirstCharacter: false,
             fastReconnect: true,
             clearCache: true,
             rightClick: true,

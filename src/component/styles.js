@@ -149,12 +149,17 @@ export class BunnyStyles {
         }
         
         .dialog-overlay {
-            width: 100%;
-            height: 100%;
-            z-index: 400;
+            position: absolute;
+            top: 0px;
+            bottom: -3px;
+            overflow: auto;
+            right: 0px;
+            z-index: 800;
+            left: 0px;
+            z-index: 700;
             background-color: black;
             opacity: 0.64;
-            animation: overlay-fadein 1.2s ease 1;
+            animation: overlay-fadein 0.62s ease 1;
             pointer-events: none;
         }
         

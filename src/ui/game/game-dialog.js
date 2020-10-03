@@ -84,6 +84,7 @@ class GameDialog extends HTMLElement {
             
             ${BunnyStyles.dialogs}
             ${BunnyStyles.variables}
+            ${BunnyStyles.noselect}
             ${BunnyStyles.icons}
 
             .dialog-text {
@@ -109,7 +110,7 @@ class GameDialog extends HTMLElement {
             }
         </style>
 
-        <div class="dialog-container" id="container" style="display: none;">
+        <div class="dialog-container noselect" id="container" style="display: none;">
             <div class="dialog-overlay"></div>
             <bunny-box id="dialog" class="dialog-center" border>
                 <bunny-icon class="icon" icon="close" id="dialog-close" @mousedown="${this._stop.bind(this)}"></bunny-icon>

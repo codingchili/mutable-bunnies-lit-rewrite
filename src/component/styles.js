@@ -134,4 +134,56 @@ export class BunnyStyles {
         }
         `;
     }
+
+    static get dialogs() {
+        return `
+        .dialog-center {
+            pointer-events: auto;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 700;
+            /* super important property that fixes a 1px jump on hover. */
+            backface-visibility: hidden;
+        }
+        
+        .dialog-overlay {
+            width: 100%;
+            height: 100%;
+            z-index: 400;
+            background-color: black;
+            opacity: 0.64;
+            animation: overlay-fadein 1.2s ease 1;
+            pointer-events: none;
+        }
+        
+        @keyframes overlay-fadein {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 0.64;
+            }
+        }
+        
+        .dialog-entity {
+            margin-top: 8px;
+            padding-left: 16px;
+            display: block;
+            color: var(--paper-grey-300);
+        
+            /* avoid half-pixel positioning caused by using the default em padding, causes blurred text. */
+            padding-bottom: 3px;
+            padding-top: 3px;
+        }
+        
+        #dialog-close {
+            position: absolute;
+            right: 8px;
+            top: 8px;
+            z-index: 1001;
+        }
+        `
+    }
 }

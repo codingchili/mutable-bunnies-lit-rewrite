@@ -129,13 +129,13 @@ class PlayerStatus extends HTMLElement {
                 left: 16px;
                 top: 16px;
                 width: 408px;
-                z-index: 700;
+                z-index: 600;
             }
 
             .frame {
                 display: block;
                 height: 68px;
-                z-index: 495;
+                z-index: 400;
             }
 
             .portrait {
@@ -256,7 +256,7 @@ class PlayerStatus extends HTMLElement {
                 margin-left: 72px;
                 display: flex;
                 flex-wrap: wrap;
-                z-index: 850;
+                z-index: 500;
                 flex-direction: row;
                 width: 296px;
                 position: relative;
@@ -314,11 +314,11 @@ class PlayerStatus extends HTMLElement {
 
             .stats-tooltip {
                 margin-left: 64px;
-                z-index: 99999;
+                z-index: 600;
             }
 
             .class-stats {
-                z-index: 999999;
+                z-index: 600;
             }
 
             img[src=""] {

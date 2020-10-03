@@ -382,6 +382,7 @@ class CharacterList extends HTMLElement {
             </bunny-box>
         </div>
             
+            
         <game-create id="creator" ?hidden="${!this.create}" class="character-create"></game-create>
         
         <bunny-toast></bunny-toast>

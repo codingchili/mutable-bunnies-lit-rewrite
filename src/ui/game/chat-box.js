@@ -1,8 +1,11 @@
 import {html, render} from '/node_modules/lit-html/lit-html.js';
 import {repeat} from 'lit-html/directives/repeat.js';
 
+import {BunnyStyles} from "/component/styles.js";
+import '/component/bunny-icon.js'
 import '/component/bunny-input.js'
 import '/component/bunny-box.js'
+import '/component/bunny-icon.js'
 
 class ChatBox extends HTMLElement {
 
@@ -97,23 +100,25 @@ class ChatBox extends HTMLElement {
             }
 
             .chat-icon {
-                margin-right: 6px;
-                width: 32px;
-                height: 32px;
-                margin-left: 6px;
-                margin-top: 4px;
+                display: block;
+                margin: auto;
+                padding: 4px;
+                margin-top: 2px;
+                padding-bottom: 2px;
             }
 
             .list {
                 margin-top: 8px;
             }
+            
+            ${BunnyStyles.icons}
 
         </style>
 
         ${!this.minimized ? html`
             <bunny-box class="chat-box" border>
                 <div>
-                    <bunny-icon @down="${this._minimize.bind(this)}" class="hide-chat" icon="icons:close"></bunny-icon>
+                    <bunny-icon @mousedown="${this._minimize.bind(this)}" class="hide-chat" icon="close"></bunny-icon>
     
                     <div class="list">
                         <ul class="messages">
@@ -134,7 +139,7 @@ class ChatBox extends HTMLElement {
 
         ${this.minimized ? html`
             <bunny-box class="chat-button" @mousedown="${this._maximize.bind(this)}" border>
-                    <bunny-icon class="chat-icon" icon="icons:speaker-notes"></bunny-icon>
+                    <bunny-icon class="chat-icon" icon="chat"></bunny-icon>
             </bunny-box>
         `: ''}
         `;
@@ -142,6 +147,7 @@ class ChatBox extends HTMLElement {
 
     _minimize() {
         this.minimized = true;
+        this.render();
     }
 
     _maximize() {

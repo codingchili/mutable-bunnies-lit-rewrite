@@ -48,15 +48,14 @@ class BunnyTooltip extends HTMLElement {
         return html`
             <style>
                  :host {
-                    position: absolute;
                     z-index: 600;
                     transition: opacity 0.3s;
                     display: none;
                     opacity: 0;
-                    top: 0;
-                    left: 0;
+                    overflow: hidden;
+                    position: absolute;
                  }
-                 .container {
+                 #clone {
                     overflow: hidden;
                  }
             </style>
@@ -71,6 +70,35 @@ class BunnyTooltip extends HTMLElement {
         `;
     }
 
+    reposition(initial) {
+        this.style.display = 'block';
+
+        let update = () => {
+            let offsetElement = this.target.parentNode;
+            // calculate offset from targets first positioned parent
+            while (offsetElement.parentNode) {
+                let style = getComputedStyle(offsetElement)['position']
+                if (style) {
+                    break;
+                } else {
+                    offsetElement = offsetElement.parentNode
+                }
+            }
+            let position = this.position(this, this.target);
+            this.style.top = `${position.y - offsetElement.getBoundingClientRect().top}px`;
+            this.style.left = `${position.x - offsetElement.getBoundingClientRect().left}px`;
+            this.style.opacity = '1';
+        };
+
+        // initial positioning to avoid overflow flickering.
+        if (initial) {
+            update();
+            this.style.display = 'none';
+        } else {
+            setTimeout(() => update());
+        }
+    }
+
     connectedCallback() {
         render(this.template, this.shadowRoot);
 
@@ -78,33 +106,17 @@ class BunnyTooltip extends HTMLElement {
         let last = 0;
 
         slot.addEventListener('slotchange', () => {
-            let target = this.parentNode.querySelector(`#${this.for}`)
+            this.target = this.parentNode.querySelector(`#${this.for}`)
                 || this.shadowRoot.host.previousElementSibling;
 
-            target.addEventListener('mouseenter', (e) => {
-                this.style.display = 'block';
+            this.reposition(true);
 
+            this.target.addEventListener('mouseenter', (e) => {
                 clearTimeout(last);
-
-                setTimeout(() => {
-                    let offsetElement = target.parentNode;
-                    // calculate offset from targets first positioned parent
-                    while (offsetElement.parentNode) {
-                        let style = getComputedStyle(offsetElement)['position']
-                        if (style) {
-                            break;
-                        } else {
-                            offsetElement = offsetElement.parentNode
-                        }
-                    }
-                    let position = this.position(this, target);
-                    this.style.top = `${position.y - offsetElement.getBoundingClientRect().top}px`;
-                    this.style.left = `${position.x - offsetElement.getBoundingClientRect().left}px`;
-                    this.style.opacity = '1';
-                }, 0);
+                this.reposition();
             });
 
-            target.addEventListener('mouseleave', () => {
+            this.target.addEventListener('mouseleave', () => {
                 this.style.opacity = '0';
 
                 clearTimeout(last);

@@ -4,6 +4,7 @@ import './game/notification-toaster.js'
 import './game/player-status.js'
 import './game/spell-bar.js'
 import './game/chat-box.js'
+import './game/game-menu.js'
 
 class GameView extends HTMLElement {
 

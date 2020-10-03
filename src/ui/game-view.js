@@ -36,30 +36,6 @@ class GameView extends HTMLElement {
             })
         });
 
-        application.onAuthentication(() => {
-            this.ambient = new Audio('/sound/mutable_theme.mp3');
-            this.ambient.loop = true;
-            this.ambient.volume = 0.5;
-
-            this.ambient.addEventListener('loadeddata', () => {
-                this.ambient.play();
-            });
-        });
-
-        application.onScriptShutdown(() => {
-            if (this.ambient) {
-                this.ambient.volume = 0.5;
-                this.ambient.currentTime = 0;
-                this.ambient.play();
-            }
-        });
-
-        application.onScriptsLoaded(() => {
-            if (this.ambient) {
-                this.ambient.pause();
-            }
-        });
-
         application.onCompleteUpdate((event) => {
             this.loading = true;
             event.status('Initializing..');

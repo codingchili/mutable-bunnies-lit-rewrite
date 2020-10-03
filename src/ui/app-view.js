@@ -96,6 +96,8 @@ class AppView extends HTMLElement {
             });
         });
 
+        this.setupAmbientAudio();
+
         application.onVersion(patch => {
             this.version = `${patch.name} ${patch.version}`
             this.render();
@@ -159,6 +161,39 @@ class AppView extends HTMLElement {
         view = this.shadowRoot.querySelector(view);
         pages.update(view.getAttribute('index'));
         this.render();
+    }
+
+    setupAmbientAudio() {
+        application.onAuthentication(() => {
+            this.play();
+        });
+
+        application.onScriptShutdown(() => {
+            if (this.ambient) {
+                this.ambient.currentTime = 0;
+                this.play();
+            }
+        });
+
+        application.onScriptsLoaded(() => {
+            if (this.ambient) {
+                this.ambient.pause();
+            }
+        });
+    }
+
+    play() {
+        if (!this.ambient) {
+            this.ambient = new Audio('/sound/mutable_theme.mp3');
+            this.ambient.loop = true;
+            this.ambient.volume = 0.5;
+
+            this.ambient.addEventListener('loadeddata', () => {
+                this.ambient.play();
+            });
+        } else {
+            this.ambient.play();
+        }
     }
 }
 

@@ -68,6 +68,8 @@ class GameMenu extends HTMLElement {
             
             .item-container {
                 position: relative;
+                padding-left: 4px;
+                padding-right: 4px;
             }
             
             bunny-icon {

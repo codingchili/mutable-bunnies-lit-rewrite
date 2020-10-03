@@ -1,4 +1,5 @@
 import {html, render} from '/node_modules/lit-html/lit-html.js';
+import {BunnyStyles} from './styles.js';
 
 class BunnyProgress extends HTMLElement {
 
@@ -54,6 +55,8 @@ class BunnyProgress extends HTMLElement {
                     width: 100%;
                 }
                 
+                ${BunnyStyles.variables}
+                
                 .outline {
                     right: 0;
                     background-color: var(--bunny-progress-container-color, darkgray);
@@ -61,7 +64,7 @@ class BunnyProgress extends HTMLElement {
                 
                 .fill {
                     width: ${this.percent()}%;
-                    background-color: var(--bunny-progress-active-color, aqua);
+                    background-color: var(--bunny-progress-active-color, var(--accent-color));
                     transition: width var(--bunny-progress-transition-duration, 0.16s) var(--bunny-progress-transition-timing-function, ease-out);
                 }
                 

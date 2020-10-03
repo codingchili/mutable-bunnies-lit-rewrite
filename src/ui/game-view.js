@@ -5,6 +5,8 @@ import './game/player-status.js'
 import './game/spell-bar.js'
 import './game/chat-box.js'
 import './game/game-menu.js'
+import './game/context-menu.js'
+
 
 class GameView extends HTMLElement {
 

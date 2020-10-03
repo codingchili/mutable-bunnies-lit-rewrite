@@ -9,6 +9,7 @@ import './game/context-menu.js'
 import './game/game-dialog.js'
 import './game/death-dialog.js'
 import './game/player-inventory.js'
+import './game/loot-dialog.js'
 
 
 class GameView extends HTMLElement {
@@ -33,6 +34,7 @@ class GameView extends HTMLElement {
                 this.target = character;
                 this.render();
             });
+
             game.subscribe('creature-despawn', creature => {
                 if (creature.id === this.target.id) {
                     this.target = false;

@@ -1,6 +1,5 @@
 import {html, render} from '/node_modules/lit-html/lit-html.js';
 
-
 class CharacterList extends HTMLElement {
 
     static get is() {

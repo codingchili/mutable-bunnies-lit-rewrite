@@ -36,6 +36,12 @@ class PlayerInventory extends HTMLElement {
                 this.inventory = inventory;
                 this.render();
             });
+
+            input.onKeysListener({
+                down: () => {
+                    application.publish('show-inventory');
+                }
+            }, 'h');
         });
 
         application.subscribe('show-inventory', () => {
@@ -219,7 +225,7 @@ class PlayerInventory extends HTMLElement {
                             <inventory-item @mousedown="${this._unequip.bind(this, slot)}" .item="${this._slot(slot)}"></inventory-item>
                         `)}
                     </div>
-                </div>down
+                </div>
 
                 <div class="currency-box">
                     <span class="currency-text">${this._currency(this.inventory)}</span>

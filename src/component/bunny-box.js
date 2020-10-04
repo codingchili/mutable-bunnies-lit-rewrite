@@ -15,17 +15,27 @@ class BunnyBox extends HTMLElement {
     connectedCallback() {
         render(BunnyBox.template, this.shadowRoot);
 
-        let container = this.shadowRoot.querySelector('.container');
+        let update = () => {
+            let container = this.shadowRoot.querySelector('.container');
 
-        if (this.hasAttribute('border')) {
-            container.classList.add('border');
-        }
-        if (this.hasAttribute('solid')) {
-            container.classList.add('solid');
-        }
-        if (this.hasAttribute('sharp')) {
-            container.classList.remove('rounded');
-        }
+            if (this.hasAttribute('border')) {
+                container.classList.add('border');
+            }
+            if (this.hasAttribute('solid')) {
+                container.classList.add('solid');
+            }
+            if (this.hasAttribute('sharp')) {
+                container.classList.remove('rounded');
+            }
+
+            this.render();
+        };
+        new MutationObserver(() => update()).observe(this, {attributes : true});
+        update();
+    }
+
+    render() {
+        render(BunnyBox.template, this.shadowRoot);
     }
 
     static get template() {
@@ -36,6 +46,7 @@ class BunnyBox extends HTMLElement {
                 
                 :host {
                     display: block;
+                    box-sizing: border-box;
                    /* box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14),
                           0 1px 18px 0 rgba(0, 0, 0, 0.12),
                           0 3px 5px -1px rgba(0, 0, 0, 0.4);*/

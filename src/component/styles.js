@@ -2,6 +2,12 @@ import {html} from '/node_modules/lit-html/lit-html.js';
 
 export class BunnyStyles {
 
+    static get hr_wide() {
+        return html`hr {
+            border-color: var(--accent-color);
+        }`;
+    }
+
     static get hr() {
         return html`
             hr {
@@ -15,6 +21,7 @@ export class BunnyStyles {
     static get icons() {
         return html`
             .icon {
+                display: block;
                 fill: var(--icon-color);
                 width: 24px;
                 height: 24px;

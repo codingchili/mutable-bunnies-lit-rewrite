@@ -309,6 +309,7 @@ class FriendView extends HTMLElement {
             ${BunnyStyles.noselect}
             ${BunnyStyles.scrollbars}
             ${BunnyStyles.variables}
+            ${BunnyStyles.hr_wide}
 
             #dialog {
                 width: 624px;
@@ -390,10 +391,6 @@ class FriendView extends HTMLElement {
             .border {
                 border: 1px solid var(--game-theme-opaque);
                 border-radius: 2px;
-            }
-
-            hr {
-                border-color: var(--accent-color);
             }
 
             .to {

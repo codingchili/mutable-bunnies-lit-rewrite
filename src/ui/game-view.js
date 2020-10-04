@@ -10,6 +10,7 @@ import './game/game-dialog.js'
 import './game/death-dialog.js'
 import './game/player-inventory.js'
 import './game/loot-dialog.js'
+import './game/friend-view.js'
 
 
 class GameView extends HTMLElement {

@@ -78,4 +78,4 @@ window.Social = class Social {
 };
 
 
-var social = new Social();
+window.social = new Social();

@@ -86,6 +86,7 @@ class FriendView extends HTMLElement {
                 .filter(function (value, index, arr) {
                     return value !== event.realm;
                 });
+            this._sort();
             this.render();
         });
 
@@ -93,6 +94,7 @@ class FriendView extends HTMLElement {
             application.publish('notification', `${event.friend} is now online.`);
             this.online[event.friend] = this.online[event.friend] || [];
             this.online[event.friend].push(event.realm);
+            this._sort();
             this.render();
         });
     }
@@ -112,7 +114,7 @@ class FriendView extends HTMLElement {
             return ((realms.includes(application.realm.id)) ? [application.realm.id] : realms.join(", "))
                 .map(realm => realm.replace('_', ' '));
         } else {
-            return "Offline";
+            return "offline";
         }
     }
 
@@ -156,23 +158,14 @@ class FriendView extends HTMLElement {
         }, 1);
     }
 
-    _highlight(friend) {
-        let color = getComputedStyle(this).getPropertyValue('--game-theme-opaque');
-        return (friend === this.chat) ? color : '';
-    }
-
     _list() {
         social.friend_list(event => {
             this.list = event.friends;
             this.requests = event.requests;
             this.online = event.online;
-            console.log(event.online);
+            this._sort();
             this.render();
         });
-    }
-
-    _selected() {
-        return "";
     }
 
     _pending() {
@@ -186,6 +179,7 @@ class FriendView extends HTMLElement {
         social.friend_accept(event => {
             this.list = event.friends;
             this.requests = event.requests;
+            this._sort();
             this._pending();
         }, request);
     }
@@ -213,7 +207,6 @@ class FriendView extends HTMLElement {
     }
 
     _keydown(e) {
-        console.log(e);
         if (e.keyCode === 13) {
             this._request();
         }
@@ -241,7 +234,6 @@ class FriendView extends HTMLElement {
 
     _request() {
         let friend = this.friend.value;
-        console.log('send request' + this.friend.value);
         if (friend.length > 0) {
             this._sendRequest(friend);
             this.friend.clear();
@@ -253,10 +245,6 @@ class FriendView extends HTMLElement {
             application.publish('notification', `Friend request sent to ${target}.`);
             this._pending();
         }, target);
-    }
-
-    _preview() {
-        // list accounts to add.. min 3 chars - 5 samples sorted.
     }
 
     _open() {
@@ -331,6 +319,9 @@ class FriendView extends HTMLElement {
                 justify-content: space-between;
             }
 
+            .highlight {
+                border: 1px solid var(--game-theme);            
+            }
 
             #friends {
                 width: 192px;
@@ -463,12 +454,21 @@ class FriendView extends HTMLElement {
             .thread-unread {
                 margin-top: 4px;
                 margin-right: 4px;
+                display: block;
             }
 
             .thread-container {
                 display: flex;
                 flex-direction: row;
                 justify-content: space-between;
+            }
+            
+            .icon-selected > svg {
+                display: block;
+                fill: var(--icon-color);
+                width: 20px;
+                height: 20px;
+                margin-top: 4px;
             }
 
         </style>
@@ -488,18 +488,24 @@ class FriendView extends HTMLElement {
                     ${this.list.map(friend =>
                         html`
                             <bunny-box @click="${this._chat.bind(this, friend)}" class="friend-item"
-                                            style="background-color:${this._highlight(friend)};
-                                                                color:${this._locality(friend)};">
+                                            style="color:${this._locality(friend)};">
                                                                 
                                 <div class="thread-container">  
-                                    <span class="friend-name">${friend}</span>            
-                                    ${this._online(friend) ? html`
+                                    <span class="friend-name">${friend}</span>
+                                    <div>
+                                        ${this._online(friend) && this._unread(friend) > 0 ? html`
+                                            <span class="thread-unread">${this._unread(friend)}</span>
+                                        ` : ''}
+                                        
+                                        ${this.chat === friend ? html`
+                                            <bunny-icon icon="chat" class="icon icon-selected"></bunny-icon>
+                                        ` : ''}
+                                        
                                         <ink-ripple></ink-ripple>
-                                        <span class="thread-unread">${this._unread(friend)}</span>
-                                    ` : ''}
+                                    </div>
                                 </div>
                             </bunny-box>
-                            <bunny-tooltip class="tooltip" location="top">
+                            <bunny-tooltip class="tooltip" location="bottom">
                                 ${this._description(friend)}
                             </bunny-tooltip>`
                         )}
@@ -599,6 +605,23 @@ class FriendView extends HTMLElement {
             </bunny-box>
         </div>
         `;
+    }
+
+    _sort() {
+        // online status => name.
+        this.list = this.list.sort((a, b) => {
+            if (this._online(a) === this._online(b)) {
+                return a.localeCompare(b);
+            } else {
+                if (this._online(a)) {
+                    return -1;
+                } else if (this._online(b)) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            }
+        })
     }
 
     render() {

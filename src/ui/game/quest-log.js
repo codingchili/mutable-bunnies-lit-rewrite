@@ -135,6 +135,10 @@ class QuestLog extends HTMLElement {
                 color: var(--accent-color);
                 cursor: pointer;
             }
+            
+            .highlight {
+                color: var(--accent-color);
+            }
 
             .quest-log-entry-complete {
                 text-decoration: line-through;
@@ -193,6 +197,7 @@ class QuestLog extends HTMLElement {
                 position: relative;
                 display: flex;
                 justify-content: space-between;
+                width: 100%;
             }
 
         </style>
@@ -207,21 +212,21 @@ class QuestLog extends HTMLElement {
     
                     <div id="quest-container">
                         <!-- quest log -->
-                        <bunny-box class="quest-log" elevation="3">
+                        <div class="quest-log" elevation="3">
                             ${this.quests.map((quest) => html`
-                                <bunny-box class="quest-log-entry" @mousedown="${this._details.bind(this, quest)}"  ?border="${this.quest.id === quest.id}">
+                                <div class="quest-log-entry" @mousedown="${this._details.bind(this, quest)}">
     
                                     <div class="entry-content">
-                                        <span class="quest-name">${quest.name}</span>
+                                        <span class="quest-name ${this.quest.id === quest.id ? 'highlight' : ''}">${quest.name}</span>
                                         ${quest.completed ? html`<bunny-icon class="icon" icon="done"></bunny-icon>` : ''}
         
                                         <ink-ripple></ink-ripple>
                                     </div>
-                                </bunny-box>
+                                </div>
                             `)}
-                        </bunny-box>
+                        </div>
     
-                        <bunny-box class="quest-details">
+                        <div class="quest-details">
                             <!--<span class="quest-header">[[quest.name]]</span>-->
                             <span class="quest-description">${this.details.description}</span>
                             <hr>
@@ -232,7 +237,7 @@ class QuestLog extends HTMLElement {
                                 </div>
                                 <hr>
                             `)}
-                        </bunny-box>
+                        </div>
                     </div>
                 </div>
             </bunny-box>

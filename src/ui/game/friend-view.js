@@ -82,8 +82,7 @@ class FriendView extends HTMLElement {
         });
 
         server.connection.setHandler('social_offline', event => {
-            this.online[event.friend] = this.online[event.friend] || [];
-            this.online[event.friend] = this.online[event.friend]
+            this.online[event.friend] = (this.online[event.friend] || [])
                 .filter(function (value, index, arr) {
                     return value !== event.realm;
                 });
@@ -110,14 +109,11 @@ class FriendView extends HTMLElement {
     _description(friend) {
         let realms = this.online[friend];
         if (realms && realms.length > 0) {
-            return (realms.includes(application.realm.id)) ? application.realm.id : realms[0];
+            return ((realms.includes(application.realm.id)) ? [application.realm.id] : realms.join(", "))
+                .map(realm => realm.replace('_', ' '));
         } else {
             return "Offline";
         }
-    }
-
-    _index(index) {
-        return `z-index: ${500 - index};`;
     }
 
     _findFriends() {
@@ -161,7 +157,7 @@ class FriendView extends HTMLElement {
     }
 
     _highlight(friend) {
-        let color = getComputedStyle(this).getPropertyValue('--accent-color') + '40';
+        let color = getComputedStyle(this).getPropertyValue('--game-theme-opaque');
         return (friend === this.chat) ? color : '';
     }
 
@@ -170,6 +166,7 @@ class FriendView extends HTMLElement {
             this.list = event.friends;
             this.requests = event.requests;
             this.online = event.online;
+            console.log(event.online);
             this.render();
         });
     }
@@ -185,12 +182,12 @@ class FriendView extends HTMLElement {
         });
     }
 
-    _accept(e) {
+    _accept(request) {
         social.friend_accept(event => {
             this.list = event.friends;
             this.requests = event.requests;
             this._pending();
-        }, e.model.request);
+        }, request);
     }
 
     _hasRequests() {
@@ -209,10 +206,10 @@ class FriendView extends HTMLElement {
         return this.suggestions.length > 0;
     }
 
-    _reject(e) {
+    _reject(request) {
         social.friend_reject(event => {
             this._list();
-        }, e.model.request);
+        }, request);
     }
 
     _keydown(e) {
@@ -226,7 +223,8 @@ class FriendView extends HTMLElement {
         let friend = this.friend.value;
         if (friend.length >= 1) {
             social.friend_suggestion(event => {
-                this.suggestions = event.suggestions;
+                //this.suggestions = event.suggestions;
+                this.suggestions = ['admin', 'poobear', 'bunny', 'mutable', 'lorem', 'ipsum', 'dolor', 'sit', 'amet', 'black', 'red', 'orange', 'soft', 'hard', 'round', 'sharp', 'fast', 'slow'];
                 this.render();
             }, friend);
         } else {
@@ -237,9 +235,8 @@ class FriendView extends HTMLElement {
 
     _requestFromSuggested(suggestion) {
         this._sendRequest(suggestion);
-        this.suggestions = [];
-        this.friend.clear();
         this.render();
+        this.friend.focus();
     }
 
     _request() {
@@ -327,7 +324,7 @@ class FriendView extends HTMLElement {
 
             .friend-item {
                 position: relative;
-                padding: 6px;
+                padding: 2px;
                 font-size: small;
                 display: flex;
                 justify-content: space-between;
@@ -405,6 +402,12 @@ class FriendView extends HTMLElement {
 
             .suggestions {
                 margin-top: 8px;
+                overflow-y: scroll;
+                position: absolute;
+                bottom: 0px;
+                top: 60px;
+                width: 100%;
+                overflow-y: scroll;
             }
 
             .actions {
@@ -413,10 +416,7 @@ class FriendView extends HTMLElement {
                 flex-direction: row;
                 right: 8px;
                 top: 6px;
-            }
-
-            .action-icon {
-
+                z-index: 200;
             }
 
             .close-chat {
@@ -462,6 +462,17 @@ class FriendView extends HTMLElement {
             #dialog-content {
                 min-height: 376px;
             }
+            
+            .thread-unread {
+                margin-top: 4px;
+                margin-right: 4px;
+            }
+
+            .thread-container {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+            }
 
         </style>
 
@@ -479,21 +490,22 @@ class FriendView extends HTMLElement {
                 
                     ${this.list.map(friend =>
                         html`
-                            <bunny-box @click="${this._chat.bind(this, friend)}" class="friend-item" elevation="0"
+                            <bunny-box @click="${this._chat.bind(this, friend)}" class="friend-item"
                                             style="background-color:${this._highlight(friend)};
                                                                 color:${this._locality(friend)};">
                                                                 
-                                <span class="friend-name">${friend}</span>
-            
-                                <div ?hidden="${!this._online(friend)}">
-                                    <ink-ripple></ink-ripple>
-                                    <span class="thread-unread">${this._unread(friend)}</span>
+                                <div class="thread-container">  
+                                    <span class="friend-name">${friend}</span>            
+                                    ${this._online(friend) ? html`
+                                        <ink-ripple></ink-ripple>
+                                        <span class="thread-unread">${this._unread(friend)}</span>
+                                    ` : ''}
                                 </div>
                             </bunny-box>
-                            <bunny-tooltip class="tooltip">
+                            <bunny-tooltip class="tooltip" location="top">
                                 ${this._description(friend)}
                             </bunny-tooltip>`
-                    )}
+                        )}
 
                     <hr>
 
@@ -502,14 +514,16 @@ class FriendView extends HTMLElement {
 
                         ${this.requests.map((request) => html`
                             <bunny-box class="friend-item">
-                                <span class="friend-name">request</span>
-
-                                <div class="actions">
-                                    <bunny-icon icon="check" class="icon action-icon" @click="${this._accept.bind(this, request)}"></bunny-icon>
-                                    <bunny-icon icon="close" class="icon action-icon" @click="${this._reject.bind(this, request)}"></bunny-icon>
+                                <div>
+                                    <span class="friend-name">${request}</span>
+    
+                                    <div class="actions">
+                                        <bunny-icon icon="done" class="icon" @click="${this._accept.bind(this, request)}"></bunny-icon>
+                                        <bunny-icon icon="close" class="icon" @click="${this._reject.bind(this, request)}"></bunny-icon>
+                                    </div>
+    
+                                    <ink-ripple></ink-ripple>
                                 </div>
-
-                                <ink-ripple></ink-ripple>
                             </bunny-box>
                         `)}
 

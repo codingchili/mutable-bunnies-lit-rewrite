@@ -56,6 +56,7 @@ class BunnyTooltip extends HTMLElement {
                     position: absolute;
                  }
                  #clone {
+                    padding: 2px;
                     overflow: hidden;
                  }
             </style>

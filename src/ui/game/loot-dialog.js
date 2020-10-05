@@ -74,6 +74,7 @@ class LootDialog extends HTMLElement {
                 display: flex;
                 flex-wrap: wrap;
                 justify-content: center;
+                padding-bottom: 24px;
             }
             
             ${BunnyStyles.icons}

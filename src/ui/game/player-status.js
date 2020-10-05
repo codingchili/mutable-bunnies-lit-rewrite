@@ -12,8 +12,18 @@ class PlayerStatus extends HTMLElement {
         return 'player-status';
     }
 
-    connectedCallback() {
-        this.attachShadow({mode: 'open'})
+    constructor() {
+        super();
+        this.afflictions = [];
+        this.compact = this.hasAttribute('compact');
+        this._target = {
+            stats: {}
+        };
+
+        setInterval(this.render.bind(this), 1000);
+
+        application.onGameLoaded(this._listen.bind(this));
+        application.onRealmLoaded(realm => this.realm = realm);
     }
 
     get target() {
@@ -24,6 +34,7 @@ class PlayerStatus extends HTMLElement {
         if (value) {
             value.stats = value.stats || {};
             this._target = value;
+            this.afflictions = this._target.afflictions || [];
 
             if (this.shadowRoot) {
                 this.render();
@@ -31,25 +42,16 @@ class PlayerStatus extends HTMLElement {
         }
     }
 
-    constructor() {
-        super();
-        this.afflictions = [];
-        this.compact = false;
-        this._target = {
-            stats: {}
-        };
-
-        setInterval(this.render.bind(this), 1000);
-
-        application.onGameLoaded(this._listen.bind(this));
-        application.onRealmLoaded(realm => this.realm = realm);
+    connectedCallback() {
+        this.attachShadow({mode: 'open'});
+        this.render();
 
         if (this.compact) {
             this.query('#health-bar').classList.add('health-bar-mini');
             this.query('.frame').classList.add('frame-mini');
             this.query('#portrait').classList.add('portrait-mini');
             this.query('#afflictions').classList.add('afflictions-mini');
-            this.query('class-icon').classList.add('class-icon-mini');
+            this.query('#class-icon').classList.add('class-icon-mini');
             this.style.width = '276px';
         }
     }
@@ -226,9 +228,19 @@ class PlayerStatus extends HTMLElement {
             }
 
             .afflictions-mini {
-                position: absolute;
-                left: 222px;
-                top: 0px;
+                position: absolute !important;
+                left: 212px;
+                top: -4px;
+            }
+            
+            #afflictions {
+                margin-left: 68px;
+                display: flex;
+                flex-wrap: wrap;
+                z-index: 500;
+                flex-direction: row;
+                width: 296px;
+                position: relative;
             }
 
             .class-icon-mini {
@@ -252,16 +264,6 @@ class PlayerStatus extends HTMLElement {
                 }
             }
 
-            #afflictions {
-                margin-left: 72px;
-                display: flex;
-                flex-wrap: wrap;
-                z-index: 500;
-                flex-direction: row;
-                width: 296px;
-                position: relative;
-            }
-
             .affliction-icon {
                 max-width: 24px;
                 max-height: 24px;
@@ -280,11 +282,10 @@ class PlayerStatus extends HTMLElement {
             }
 
             .affliction {
-                width: 32px;
-                min-width: 24px;
+                min-width: 38px;
+                min-height: 38px;
                 padding: 4px;
-                height: 32px;
-                margin: 4px;
+                margin-top: 2px;
                 animation: fadein 0.72s ease 1;
             }
 
@@ -351,8 +352,10 @@ class PlayerStatus extends HTMLElement {
 
             <slot></slot>
 
-            <span ?hidden="${this.compact}" class="level">${this.target.stats.level}</span>
-            <span ?hidden="${this.compact}"    class="name">${this.target.name}</span>
+            ${this.compact ? null : html`
+                <span class="level">${this.target.stats.level}</span>
+                <span class="name">${this.target.name}</span>
+            `}
 
             <div @click="${this._targeting.bind(this)}" class="class-icon" id="class-icon">
                 <img id="portrait" class="portrait" src="${this._portrait(this.target, this.realm)}">

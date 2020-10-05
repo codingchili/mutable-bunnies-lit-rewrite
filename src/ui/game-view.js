@@ -12,6 +12,7 @@ import './game/player-inventory.js'
 import './game/loot-dialog.js'
 import './game/friend-view.js'
 import './game/quest-log.js'
+import './game/party-view.js'
 import './game/world-designer.js'
 
 
